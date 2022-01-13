@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
@@ -15,11 +14,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  * arcade steering.
  */
 public class Robot extends TimedRobot {
-  private final PWMVictorSPX m_leftMotor = new PWMVictorSPX(0);
-  private final PWMVictorSPX m_rightMotor = new PWMVictorSPX(1);
+  private final WPI_TalonSRX m_leftMotor = new WPI_TalonSRX(0);
+  private final WPI_TalonSRX m_rightMotor = new WPI_TalonSRX(1);
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
   private final Joystick m_stick = new Joystick(0);
 
+  @Override
+
+  
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
