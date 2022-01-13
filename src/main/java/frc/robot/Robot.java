@@ -19,9 +19,14 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
   private final Joystick m_stick = new Joystick(0);
 
-  @Override
+    // AUTON
+    // figure out what the proper class name is for auton
+    // shoot 1 ball
+    // move backwards
+    // start the intake
+    // move forward to the original position
+    // shoot 1 ball
 
-  
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
