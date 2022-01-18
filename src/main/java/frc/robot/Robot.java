@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
   // move backwards
   // start the intake
   // move forward to the original position
-  // shoot 1 ball
+      // shoot 1 ball
 
   @Override
   public void robotInit() {
