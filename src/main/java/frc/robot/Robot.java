@@ -49,6 +49,5 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     robot.arcadeDrive(controller.getLeftY(), controller.getRightX());
-
   }
 }
