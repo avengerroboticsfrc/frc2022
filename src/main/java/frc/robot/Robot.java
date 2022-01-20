@@ -7,8 +7,8 @@ package frc.robot;
 // import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Robot extends TimedRobot {
   private final WPI_VictorSPX leftMotor = new WPI_VictorSPX(0);
   private final WPI_VictorSPX rightMotor = new WPI_VictorSPX(1);
-  private final Joystick m_stick = new Joystick(0);
+  private final XboxController controller = new XboxController(0);
   private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
   // AUTON
@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
-    robot.arcadeDrive(m_stick.getY(), m_stick.getX());
+    robot.arcadeDrive(controller.getLeftY(), controller.getRightX());
 
   }
 }
