@@ -4,7 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -15,10 +16,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * arcade steering.
  */
 public class Robot extends TimedRobot {
-  private final WPI_TalonFX m_leftMotor = new WPI_TalonFX(0);
-  private final WPI_TalonFX m_rightMotor = new WPI_TalonFX(1);
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+  private final WPI_VictorSPX leftMotor = new WPI_VictorSPX(0);
+  private final WPI_VictorSPX rightMotor = new WPI_VictorSPX(1);
   private final Joystick m_stick = new Joystick(0);
+  private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
   // AUTON
   // figure out what the proper class name is for auton
@@ -33,14 +34,14 @@ public class Robot extends TimedRobot {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(true);
+    rightMotor.setInverted(true);
   }
 
   @Override
   public void teleopPeriodic() {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
-    // and backward, and the X turns left and right.
-    m_robotDrive.arcadeDrive(-m_stick.getY(), m_stick.getX());
+    robot.arcadeDrive(m_stick.getY(), m_stick.getX());
+
   }
 }
