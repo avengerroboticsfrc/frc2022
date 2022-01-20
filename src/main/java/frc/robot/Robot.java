@@ -10,14 +10,21 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class. Runs the motors with
  * arcade steering.
  */
 public class Robot extends TimedRobot {
-  private final WPI_VictorSPX leftMotor = new WPI_VictorSPX(0);
-  private final WPI_VictorSPX rightMotor = new WPI_VictorSPX(1);
+  private final MotorControllerGroup leftMotor = new MotorControllerGroup(
+      new WPI_VictorSPX(1),
+      new WPI_VictorSPX(4)
+    );
+  private final MotorControllerGroup rightMotor = new MotorControllerGroup(
+      new WPI_VictorSPX(2),
+      new WPI_VictorSPX(3)
+    );
   private final XboxController controller = new XboxController(0);
   private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
@@ -27,7 +34,7 @@ public class Robot extends TimedRobot {
   // move backwards
   // start the intake
   // move forward to the original position
-      // shoot 1 ball
+  // shoot 1 ball
 
   @Override
   public void robotInit() {
