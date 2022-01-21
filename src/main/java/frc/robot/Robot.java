@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 // import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -17,14 +18,13 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
  * arcade steering.
  */
 public class Robot extends TimedRobot {
-  private final MotorControllerGroup leftMotor = new MotorControllerGroup(
-      new WPI_VictorSPX(1),
-      new WPI_VictorSPX(4)
-    );
-  private final MotorControllerGroup rightMotor = new MotorControllerGroup(
-      new WPI_VictorSPX(2),
-      new WPI_VictorSPX(3)
-    );
+  private WPI_VictorSPX vl1 = new WPI_VictorSPX(1);
+  private WPI_VictorSPX vl2 = new WPI_VictorSPX(4);
+  private WPI_VictorSPX vr1 = new WPI_VictorSPX(2);
+  private WPI_VictorSPX vr2 = new WPI_VictorSPX(3);
+
+  private final MotorControllerGroup leftMotor = new MotorControllerGroup(vl1, vl2);
+  private final MotorControllerGroup rightMotor = new MotorControllerGroup(vr1, vr2);
   private final XboxController controller = new XboxController(0);
   private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
@@ -42,12 +42,18 @@ public class Robot extends TimedRobot {
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     rightMotor.setInverted(true);
+    
+    // make the motors try to break when "neutral"
+    vl1.setNeutralMode(NeutralMode.Brake);
+    vl2.setNeutralMode(NeutralMode.Brake);
+    vr1.setNeutralMode(NeutralMode.Brake);
+    vr2.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
   public void teleopPeriodic() {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
-    robot.arcadeDrive(controller.getLeftY(), controller.getRightX());
+    robot.arcadeDrive(controller.getLeftY() * .6, controller.getRightX() * .6);
   }
 }
