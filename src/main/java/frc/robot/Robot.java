@@ -52,6 +52,24 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    // Button 1 (Small Arm Up)
+    // Button 2 (Small Arm Down)
+    // Button 3 (Big Arm Angle to Center)
+    // Button 4 (Big Arm Angle Backwards)
+
+    // The Process
+    // Small Arm Down 
+    // Make sure big arm has secured (or some other consistent method)
+    // Small Arm Up
+    // Big Arm Angle Backwards
+    // Small Arm Up (maybe simultaneously)
+    // Big Arm Angle to Center (more like 45 degrees)
+    // Small Arm Down
+    // Big Arm Angle to Center (and small arm up so it goes under the bar)
+    // Small Arm Down
+    // Big Arm Holds (end)
+
+
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     robot.arcadeDrive(controller.getLeftY() * .6, controller.getRightX() * .6);
