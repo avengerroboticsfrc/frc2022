@@ -52,12 +52,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // Button 1 (Small Arm Up)
-    // Button 2 (Small Arm Down)
-    // Button 3 (Big Arm Angle to Center)
-    // Button 4 (Big Arm Angle Backwards)
+    // Button 5 (Small Arm Up)
+    // Button 7 (Small Arm Down)
+    // Button 12 (Big Arm Angle to Center)
+    // Button 11 (Big Arm Angle Backwards)
 
-    // The Process
+    // The Process (Buttons 2, 4, 6, 8)
     // Small Arm Down 
     // Make sure big arm has secured (or some other consistent method)
     // Small Arm Up
