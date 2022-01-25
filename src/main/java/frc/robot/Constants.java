@@ -15,6 +15,7 @@ package frc.robot;
 public final class Constants {
   public static final int[] leftMotorPorts = { 1, 4 };
   public static final int[] rightMotorPorts = { 2, 3 };
-
+  public static final int[] ShooterMotorPorts = {5, 6};
   public static final int controllerPort = 0;
+
 }
