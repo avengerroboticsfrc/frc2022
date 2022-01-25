@@ -44,6 +44,23 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    // paul's button panel notes
+    // Button 5 (Small Arm Up)
+    // Button 7 (Small Arm Down)
+    // Button 12 (Big Arm Angle to Center)
+    // Button 11 (Big Arm Angle Backwards)
+
+    // The Process (Buttons 2, 4, 6, 8)
+    // Small Arm Down 
+    // Make sure big arm has secured (or some other consistent method)
+    // Small Arm Up
+    // Big Arm Angle Backwards
+    // Small Arm Up (maybe simultaneously)
+    // Big Arm Angle to Center (more like 45 degrees)
+    // Small Arm Down
+    // Big Arm Angle to Center (and small arm up so it goes under the bar)
+    // Small Arm Down
+    // Big Arm Holds (end)
   }
 
   /**
