@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Limelight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -31,6 +33,7 @@ public class RobotContainer {
 
   private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
   private RunCommand driveCommand;
+  private Limelight limelightCamera = new Limelight();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -39,10 +42,11 @@ public class RobotContainer {
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right.
     driveCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(
-        controller.getLeftY(),
-        controller.getRightX()),
+        controller.getLeftY() * .7,
+        controller.getRightX() * .7),
         driveSubsystem);
 
+        
     // Configure the button bindings
     configureButtonBindings();
   }
