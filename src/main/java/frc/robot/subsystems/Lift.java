@@ -23,8 +23,8 @@ private final WPI_VictorSPX[] liftMotors = {
 
   public Lift() {
 
-    liftMotors[0].setNeutralMode(NeutralMode.Brake);//need to change ports
-    liftMotors[1].setNeutralMode(NeutralMode.Brake);//need to change ports
+    liftMotors[0].set(1.0);//need to change ports
+    liftMotors[1].set(1.0);//need to change ports
 
     //might need to write code to reverse the motors
 
