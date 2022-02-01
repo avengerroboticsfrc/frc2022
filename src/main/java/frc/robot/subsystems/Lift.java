@@ -24,6 +24,9 @@ public class Lift extends SubsystemBase {
   };
 
   public Lift() {
+    // initialize the subsystem
+    super();
+
     verticalMotors[1].follow(verticalMotors[0]);
     verticalMotors[1].setInverted(InvertType.OpposeMaster);
     // continue...
