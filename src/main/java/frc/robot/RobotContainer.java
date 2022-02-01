@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -60,13 +61,27 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // No clue what I'm doing
+    // this is what I should have set up down there
+    // MIGHT HAVE TO IMPLEMENT STATE CHANGE CHECK
 
-    // paul's button panel notes
+    // Declare the button panel
+    Joystick stationController = new Joystick(0);
+
     // Button 5 (Small Arm Up)
     // Button 7 (Small Arm Down)
     // Button 12 (Big Arm Angle to Center)
     // Button 11 (Big Arm Angle Backwards)
-
+    JoystickButton smallArmUp = new JoystickButton(stationController, 5);
+    JoystickButton smallArmDown = new JoystickButton(stationController, 7);
+    JoystickButton bigArmToCenter = new JoystickButton(stationController, 12);
+    JoystickButton bigArmBackwards = new JoystickButton(stationController, 11);
+    if (smallArmUp.get()) {
+      // VEX CIM Motor supposed to go here
+    }
+    // the other ones should be here too
+    
+    // TODO BELOW
     // The Process (Buttons 2, 4, 6, 8)
     // Small Arm Down
     // Make sure big arm has secured (or some other consistent method)
@@ -78,6 +93,14 @@ public class RobotContainer {
     // Big Arm Angle to Center (and small arm up so it goes under the bar)
     // Small Arm Down
     // Big Arm Holds (end)
+
+    JoystickButton autoStep1 = new JoystickButton(stationController, 2);
+    if (autoStep1.get()) {
+
+    }
+    JoystickButton autoStep2 = new JoystickButton(stationController, 4);
+    JoystickButton autoStep3 = new JoystickButton(stationController, 6);
+    JoystickButton autoStep4 = new JoystickButton(stationController, 8);
   }
 
   /**
