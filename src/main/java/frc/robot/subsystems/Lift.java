@@ -13,27 +13,27 @@ import frc.robot.Constants;
 public class Lift extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
+  private final WPI_VictorSPX[] verticalMotors = {
+      new WPI_VictorSPX(Constants.liftMotorPorts[0]), // need to change port number
+      new WPI_VictorSPX(Constants.liftMotorPorts[1]) // need to change port number
+  };
 
-private final WPI_VictorSPX[] liftMotors = {
-    new WPI_VictorSPX(Constants.liftMotorPorts[0]),//need to change port number
-    new WPI_VictorSPX(Constants.liftMotorPorts[1]) //need to change port number
-};
-
-
+  private final WPI_VictorSPX[] rotationMotors = {
+    new WPI_VictorSPX(Constants.liftMotorPorts[0]), // need to change port number
+    new WPI_VictorSPX(Constants.liftMotorPorts[1]) // need to change port number
+  };
 
   public Lift() {
-
-    liftMotors[0].set(1.0);//need to change ports
-    liftMotors[1].set(1.0);//need to change ports
-
-    //might need to write code to reverse the motors
-
+    verticalMotors[1].follow(verticalMotors[0]);
+    verticalMotors[1].setInverted(InvertType.OpposeMaster);
+    // continue...
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation

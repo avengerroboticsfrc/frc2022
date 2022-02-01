@@ -28,7 +28,7 @@ public final class Constants {
 
   public static final int[] shooterMotorPorts = { 5, 6 };
   public static final int[] liftMotorPorts = { 7, 8 };
-  
+
   public static final int controllerPort = 0;
 
 }
