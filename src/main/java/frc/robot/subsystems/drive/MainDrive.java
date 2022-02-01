@@ -12,12 +12,12 @@ public class MainDrive extends DriveTrain {
   public MainDrive() {
     super(
         new WPI_TalonFX[] {
-            new WPI_TalonFX(Constants.leftDriveMotorPorts[0]),
-            new WPI_TalonFX(Constants.leftDriveMotorPorts[1])
+            new WPI_TalonFX(Constants.mainRobotLeftDriveMotorPorts[0]),
+            new WPI_TalonFX(Constants.mainRobotLeftDriveMotorPorts[1])
         },
         new WPI_TalonFX[] {
-            new WPI_TalonFX(Constants.rightDriveMotorPorts[0]),
-            new WPI_TalonFX(Constants.rightDriveMotorPorts[1])
+            new WPI_TalonFX(Constants.mainRobotRightDriveMotorPorts[0]),
+            new WPI_TalonFX(Constants.mainRobotRightDriveMotorPorts[1])
         }
     );
   }

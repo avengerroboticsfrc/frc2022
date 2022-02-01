@@ -1,6 +1,6 @@
 package frc.robot.subsystems.drive;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants;
 
@@ -12,13 +12,13 @@ public class TestingDrive extends DriveTrain {
    */
   public TestingDrive() {
     super(
-        new WPI_VictorSPX[] {
-            new WPI_VictorSPX(Constants.leftDriveMotorPorts[0]),
-            new WPI_VictorSPX(Constants.leftDriveMotorPorts[1])
+        new WPI_TalonFX[] {
+            new WPI_TalonFX(Constants.testRobotLeftDriveMotorPorts[0]),
+            new WPI_TalonFX(Constants.testRobotLeftDriveMotorPorts[1])
         },
-        new WPI_VictorSPX[] {
-            new WPI_VictorSPX(Constants.rightDriveMotorPorts[0]),
-            new WPI_VictorSPX(Constants.rightDriveMotorPorts[1])
+        new WPI_TalonFX[] {
+            new WPI_TalonFX(Constants.testRobotRightDriveMotorPorts[0]),
+            new WPI_TalonFX(Constants.testRobotRightDriveMotorPorts[1])
         }
     );
   }

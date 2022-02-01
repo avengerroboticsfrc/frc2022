@@ -15,6 +15,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
+import frc.robot.subsystems.drive.TestingDrive;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -30,24 +31,37 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-  private final DriveTrain driveSubsystem = new MainDrive();
+  private final DriveTrain driveSubsystem;
 
   private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
-  private RunCommand driveCommand;
   private Limelight limelightCamera = new Limelight();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    switch (Constants.robotType) {
+      case MAIN_ROBOT:
+        driveSubsystem = new MainDrive();
+        break;
+      case PROGRAMMING_TESTING_ROBOT:
+        driveSubsystem = new TestingDrive();
+        break;
+      default:
+        driveSubsystem = new MainDrive();
+    }
+
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right.
-    driveCommand = new RunCommand(() -> driveSubsystem.arcadeDrive(
-        controller.getLeftY() * .7,
-        controller.getRightX() * .7),
-        driveSubsystem);
+    driveSubsystem.setDefaultCommand(
+        new RunCommand(() -> driveSubsystem.arcadeDrive(
+                controller.getLeftY() * .5,
+                controller.getRightX() * .5
+            ),
+            driveSubsystem
+        )
+    );
 
-        
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -80,7 +94,7 @@ public class RobotContainer {
       // VEX CIM Motor supposed to go here
     }
     // the other ones should be here too
-    
+
     // TODO BELOW
     // The Process (Buttons 2, 4, 6, 8)
     // Small Arm Down
@@ -107,7 +121,7 @@ public class RobotContainer {
    * returns the teleop command
    */
   public Command getTeleCommand() {
-    return driveCommand;
+    return driveSubsystem.getDefaultCommand();
   }
 
   /**
