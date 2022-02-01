@@ -1,18 +1,41 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-NetworkTableEntry tx = table.getEntry("tx");
-NetworkTableEntry ty = table.getEntry("ty");
-NetworkTableEntry ta = table.getEntry("ta");
+public class Limelight extends SubsystemBase {
+  private final NetworkTable table;
+  private final double cc = -0.1;  // Proportional control constant
+  private final double minCommand = 0.05;
+  
+  public Limelight() {
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+  }
+  
+  /**
+   * uses the targetXOffset value to calculate the steeringAdjust value.
+   */
+  public double getSteeringAdjust() {
+    double steeringAdjust = 0.0;
+    double targetX = getTargetXOffset();
 
-//read values periodically
-double x = tx.getDouble(0.0);
-double y = ty.getDouble(0.0);
-double area = ta.getDouble(0.0);
+    steeringAdjust = (targetX > 1.0)
+        ? cc * -1 * targetX - minCommand
+        : cc * -1 * targetX + minCommand;
 
+    return steeringAdjust;
+  }
+
+  private double getTargetXOffset() {
+    return table.getEntry("tx").getDouble(-1);
+  }
+
+  private double getTargetYOffset() {
+    return table.getEntry("ty").getDouble(-1);
+  }
+
+  private double getTargetArea() {
+    return table.getEntry("ta").getDouble(-1);
+  }
 }
