@@ -52,15 +52,16 @@ public class RobotContainer {
     }
 
     // A split-stick arcade command, with forward/backward controlled by the left
-    // hand, and turning controlled by the right.
-    driveSubsystem.setDefaultCommand(
-        new RunCommand(() -> driveSubsystem.arcadeDrive(
-                controller.getLeftY() * .5,
-                controller.getRightX() * .5
-            ),
-            driveSubsystem
-        )
-    );
+    // hand, and turning controlled by the right. Has a constant turning radius.
+    // driveSubsystem.setDefaultCommand(
+    //     new RunCommand(() -> driveSubsystem.curvatureDrive(
+    //             controller.getLeftY() * .5,
+    //             controller.getRightX() * .5
+    //         ),
+    //         driveSubsystem
+    //     )
+    // );
+    driveSubsystem.music.play();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -115,6 +116,7 @@ public class RobotContainer {
     JoystickButton autoStep2 = new JoystickButton(stationController, 4);
     JoystickButton autoStep3 = new JoystickButton(stationController, 6);
     JoystickButton autoStep4 = new JoystickButton(stationController, 8);
+    JoystickButton pl = new JoystickButton(controller, 0);
   }
 
   /**
