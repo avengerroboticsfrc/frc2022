@@ -1,29 +1,32 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class DriveSubsystem extends SubsystemBase {
-  private final WPI_VictorSPX[] leftMotors = {
-    new WPI_VictorSPX(Constants.leftMotorPorts[0]),
-    new WPI_VictorSPX(Constants.leftMotorPorts[1])
-  };
-  private final WPI_VictorSPX[] rightMotors = {
-    new WPI_VictorSPX(Constants.rightMotorPorts[0]),
-    new WPI_VictorSPX(Constants.rightMotorPorts[1])
-  };
-
-  private final DifferentialDrive driveTrain = new DifferentialDrive(leftMotors[0], rightMotors[0]);
+public abstract class DriveTrain extends SubsystemBase {
+  protected final BaseMotorController[] leftMotors;
+  protected final BaseMotorController[] rightMotors;
+  
+  protected final DifferentialDrive driveTrain;
 
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
   */
-  public DriveSubsystem() {
+  public DriveTrain(BaseMotorController[] leftMotors, BaseMotorController[] rightMotors) {
+    super();
+    this.leftMotors = leftMotors;
+    this.rightMotors = rightMotors;
+
+    driveTrain = new DifferentialDrive(
+      (MotorController) leftMotors[0],
+      (MotorController) rightMotors[0]
+    );
+
     leftMotors[0].setNeutralMode(NeutralMode.Brake);
     leftMotors[1].setNeutralMode(NeutralMode.Brake);
     rightMotors[0].setNeutralMode(NeutralMode.Brake);
