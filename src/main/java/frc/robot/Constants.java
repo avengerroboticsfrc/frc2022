@@ -13,9 +13,10 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final int[] leftMotorPorts = { 1, 4 };
-  public static final int[] rightMotorPorts = { 2, 3 };
-  public static final int[] ShooterMotorPorts = {5, 6};
+  public static final int[] leftDriveMotorPorts = { 1, 4 };
+  public static final int[] rightDriveMotorPorts = { 2, 3 };
+  
+  public static final int[] ShooterMotorPorts = { 5, 6 };
+  
   public static final int controllerPort = 0;
-
 }
