@@ -19,6 +19,7 @@ public abstract class DriveTrain extends SubsystemBase {
   */
   public DriveTrain(BaseMotorController[] leftMotors, BaseMotorController[] rightMotors) {
     super();
+
     this.leftMotors = leftMotors;
     this.rightMotors = rightMotors;
 
