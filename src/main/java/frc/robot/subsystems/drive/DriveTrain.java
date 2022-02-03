@@ -13,31 +13,33 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class DriveTrain extends SubsystemBase {
   protected final BaseMotorController[] leftMotors;
   protected final BaseMotorController[] rightMotors;
-  
+
   protected final DifferentialDrive driveTrain;
 
-  public Orchestra music;
+  // private Orchestra music;
 
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
-  */
+   */
   public DriveTrain(BaseMotorController[] leftMotors, BaseMotorController[] rightMotors) {
     super();
 
     this.leftMotors = leftMotors;
     this.rightMotors = rightMotors;
-    music = new Orchestra();
+    // music = new Orchestra();
 
     driveTrain = new DifferentialDrive(
-      (MotorController) leftMotors[0],
-      (MotorController) rightMotors[0]
+        (MotorController) leftMotors[0],
+        (MotorController) rightMotors[0]
     );
 
-    music.addInstrument((TalonFX) leftMotors[0]);
-    music.addInstrument((TalonFX) leftMotors[1]);
-    music.addInstrument((TalonFX) rightMotors[0]);
-    music.addInstrument((TalonFX) rightMotors[1]);
-    music.loadMusic("ssbb.chrp");
+    // music.addInstrument((TalonFX) leftMotors[0]);
+    // music.addInstrument((TalonFX) leftMotors[1]);
+    // music.addInstrument((TalonFX) rightMotors[0]);
+    // music.addInstrument((TalonFX) rightMotors[1]);
+    // music.loadMusic("ssbb.chrp");
+    // System.out.println(music.play());
+
     leftMotors[0].setNeutralMode(NeutralMode.Brake);
     leftMotors[1].setNeutralMode(NeutralMode.Brake);
     rightMotors[0].setNeutralMode(NeutralMode.Brake);
@@ -52,6 +54,17 @@ public abstract class DriveTrain extends SubsystemBase {
 
   /**
    * just call the arcadedrive method with a differential drive.
+   */
+  public void arcadeDrive(double speed, double rotation) {
+    driveTrain.arcadeDrive(speed, rotation);
+  }
+
+  /**
+   * Curvature drive method for differential drivetrain.
+
+   * The rotation argument controls the curvature of the robot's path rather than
+   * its rate of heading change. This makes the robot more controllable at high
+   * speeds.
    */
   public void curvatureDrive(double speed, double rotation) {
     driveTrain.curvatureDrive(speed, rotation, false);

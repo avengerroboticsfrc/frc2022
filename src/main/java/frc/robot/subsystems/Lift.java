@@ -23,6 +23,9 @@ public class Lift extends SubsystemBase {
     new WPI_VictorSPX(Constants.liftMotorPorts[1]) // need to change port number
   };
 
+  /**
+   * insert a javadoc comment.
+   */
   public Lift() {
     // initialize the subsystem
     super();
