@@ -11,16 +11,16 @@ import java.nio.file.Path;
 //Builds path into the roboRIO
 
 public class PathweaverLoader {
-  String trajectoryJSON = "paths/drive.wplib.json";
-  Trajectory trajectory = new Trajectory();
+  // String trajectoryJSON = "paths/drive.wplib.json";
+  // Trajectory trajectory = new Trajectory();
 
-  @Override
-  public void robotInit() {
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-      DriverStation.reportError("Cannot open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
-  }
+  // @Override
+  // public void robotInit() {
+  //   try {
+  //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //   } catch (IOException ex) {
+  //     DriverStation.reportError("Cannot open trajectory: " + trajectoryJSON, ex.getStackTrace());
+  //   }
+  // }
 }

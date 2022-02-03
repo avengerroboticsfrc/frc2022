@@ -19,7 +19,6 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("LimelightX", getTargetXOffset());
     SmartDashboard.putNumber("LimelightY", getTargetYOffset());
     SmartDashboard.putNumber("LimelightArea", getTargetArea());
-    super.periodic();
   }
 
   /**

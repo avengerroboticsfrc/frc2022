@@ -20,16 +20,39 @@ public final class Constants {
 
   public static final RobotType robotType = RobotType.PROGRAMMING_TESTING_ROBOT;
 
-  public static final int[] testRobotLeftDriveMotorPorts = { 1, 10 };
-  public static final int[] testRobotRightDriveMotorPorts = { 2, 20 };
+  public static enum TestingRobot {
+    leftDriveMotors(1, 10),
+    rightDriveMotors(2, 20);
 
-  public static final int[] mainRobotLeftDriveMotorPorts = { 1, 4 };
-  public static final int[] mainRobotRightDriveMotorPorts = { 2, 3 };
+    public int[] ports;
 
-  public static final int[] shooterMotorPorts = { 5, 6 };
-  public static final int hoodMotorPort = 9;
-  public static final int[] liftMotorPorts = { 7, 8 };
+    TestingRobot(int port) {
+      this.ports = new int[] { port };
+    }
+
+    TestingRobot(int a, int b) {
+      this.ports = new int[] { a, b };
+    }
+  }
+
+  public static enum MainRobot {
+    leftDriveMotors(1, 4),
+    rightDriveMotors(2, 3),
+    shooterMotor(5, 6),
+    hoodMotor(7),
+    liftMotor(8, 9),
+    pitchMotor(10, 11);
+
+    public int[] ports;
+
+    MainRobot(int port) {
+      this.ports = new int[] { port };
+    }
+
+    MainRobot(int a, int b) {
+      this.ports = new int[] { a, b };
+    }
+  }
 
   public static final int controllerPort = 0;
-
 }

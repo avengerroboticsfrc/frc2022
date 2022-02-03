@@ -1,7 +1,5 @@
 package frc.robot.subsystems.drive;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import frc.robot.Constants;
 
 public class MainDrive extends DriveTrain {
@@ -11,16 +9,6 @@ public class MainDrive extends DriveTrain {
    * the 4 talons on the main robot.
    */
   public MainDrive() {
-    super(
-        new WPI_TalonFX[] {
-            new WPI_TalonFX(Constants.mainRobotLeftDriveMotorPorts[0]),
-            new WPI_TalonFX(Constants.mainRobotLeftDriveMotorPorts[1])
-        },
-        new WPI_TalonFX[] {
-            new WPI_TalonFX(Constants.mainRobotRightDriveMotorPorts[0]),
-            new WPI_TalonFX(Constants.mainRobotRightDriveMotorPorts[1])
-        }
-    );
-
+    super(Constants.MainRobot.leftDriveMotors.ports, Constants.MainRobot.rightDriveMotors.ports);
   }
 }

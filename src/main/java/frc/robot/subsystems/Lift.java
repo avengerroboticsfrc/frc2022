@@ -4,23 +4,23 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Lift extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
   private final WPI_VictorSPX[] verticalMotors = {
-      new WPI_VictorSPX(Constants.liftMotorPorts[0]), // need to change port number
-      new WPI_VictorSPX(Constants.liftMotorPorts[1]) // need to change port number
+      new WPI_VictorSPX(Constants.MainRobot.liftMotor.ports[0]),
+      new WPI_VictorSPX(Constants.MainRobot.liftMotor.ports[1])
   };
 
-  private final WPI_VictorSPX[] rotationMotors = {
-    new WPI_VictorSPX(Constants.liftMotorPorts[0]), // need to change port number
-    new WPI_VictorSPX(Constants.liftMotorPorts[1]) // need to change port number
+  private final WPI_VictorSPX[] pitchMotors = {
+    new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[0]),
+    new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[1])
   };
 
   /**

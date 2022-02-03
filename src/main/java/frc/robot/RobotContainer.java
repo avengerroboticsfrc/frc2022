@@ -5,13 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
@@ -30,10 +28,9 @@ public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
 
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
   private final DriveTrain driveSubsystem;
 
-  private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
+  private final Command autoCommand;
   private Limelight limelightCamera = new Limelight();
 
   /**
@@ -53,15 +50,9 @@ public class RobotContainer {
 
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right. Has a constant turning radius.
-    // driveSubsystem.setDefaultCommand(
-    //     new RunCommand(() -> driveSubsystem.curvatureDrive(
-    //             controller.getLeftY() * .5,
-    //             controller.getRightX() * .5
-    //         ),
-    //         driveSubsystem
-    //     )
-    // );
-    driveSubsystem.music.play();
+    driveSubsystem.setDefaultCommand(
+        new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX) // pass in a reference to a method
+    );
 
     // Configure the button bindings
     configureButtonBindings();
@@ -120,7 +111,7 @@ public class RobotContainer {
   }
 
   /**
-   * returns the teleop command
+   * returns the teleop command.
    */
   public Command getTeleCommand() {
     return driveSubsystem.getDefaultCommand();
