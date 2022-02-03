@@ -10,6 +10,7 @@ public class Limelight extends SubsystemBase {
   private final double cc = -0.1; // Proportional control constant
   private final double minCommand = 0.05; // Minimum amount to slightly move the robot
 
+
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
   }
@@ -37,6 +38,7 @@ public class Limelight extends SubsystemBase {
 
   private double getTargetXOffset() {
     return table.getEntry("tx").getDouble(-1);
+    //returns -1 if no target
   }
 
   private double getTargetYOffset() {
