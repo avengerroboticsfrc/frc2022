@@ -1,11 +1,13 @@
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 
 
+//Builds path into the roboRIO
+
 public class path {
     String trajectoryJSON = "paths/drive.wplib.json";
     Trajectory trajectory = new Trajectory();
 
-    @Override
+    @Override 
     public void robotInit() {
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath.resolve(trajectoryJSON);
