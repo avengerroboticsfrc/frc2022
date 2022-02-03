@@ -85,7 +85,10 @@ public class RobotContainer {
     JoystickButton smallArmDown = new JoystickButton(stationController, 7);
     JoystickButton bigArmToCenter = new JoystickButton(stationController, 12);
     JoystickButton bigArmBackwards = new JoystickButton(stationController, 11);
-    smallArmUp.whenPressed(new StartEndCommand(() -> lift.liftPower(-1), () -> lift.liftPower(0), lift));
+    smallArmUp.toggleWhenPressed(new StartEndCommand(() -> lift.liftPower(-1), () -> lift.liftPower(0), lift));
+    smallArmDown.toggleWhenPressed(new StartEndCommand(() -> lift.liftPower(1), () -> lift.liftPower(0), lift));
+    bigArmToCenter.toggleWhenPressed(new StartEndCommand(() -> lift.pitchPower(-1), () -> lift.pitchPower(0), lift));
+    bigArmBackwards.toggleWhenPressed(new StartEndCommand(() -> lift.pitchPower(1), () -> lift.pitchPower(0), lift));
     // the other ones should be here too
 
     // TODO BELOW
@@ -102,9 +105,6 @@ public class RobotContainer {
     // Big Arm Holds (end)
 
     JoystickButton autoStep1 = new JoystickButton(stationController, 2);
-    if (autoStep1.get()) {
-
-    }
     JoystickButton autoStep2 = new JoystickButton(stationController, 4);
     JoystickButton autoStep3 = new JoystickButton(stationController, 6);
     JoystickButton autoStep4 = new JoystickButton(stationController, 8);
