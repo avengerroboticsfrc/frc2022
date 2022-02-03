@@ -23,6 +23,17 @@ public class Lift extends SubsystemBase {
     new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[1])
   };
 
+
+  public void liftPower(double speed){
+    verticalMotors[0].set(speed);
+  }
+
+  public void pitchPower(double speed){
+    pitchMotors[0].set(speed);
+  }
+
+
+
   /**
    * insert a javadoc comment.
    */
@@ -31,6 +42,7 @@ public class Lift extends SubsystemBase {
     super();
 
     verticalMotors[1].follow(verticalMotors[0]);
+    pitchMotors[1].follow(pitchMotors[0]);
     verticalMotors[1].setInverted(InvertType.OpposeMaster);
     // continue...
   }

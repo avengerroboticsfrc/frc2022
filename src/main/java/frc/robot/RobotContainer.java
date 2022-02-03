@@ -8,12 +8,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
 import frc.robot.subsystems.drive.TestingDrive;
+import frc.robot.subsystems.Lift;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -32,6 +34,7 @@ public class RobotContainer {
 
   //private final Command autoCommand;
   private Limelight limelightCamera = new Limelight();
+  private Lift lift = new Lift();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -82,9 +85,10 @@ public class RobotContainer {
     JoystickButton smallArmDown = new JoystickButton(stationController, 7);
     JoystickButton bigArmToCenter = new JoystickButton(stationController, 12);
     JoystickButton bigArmBackwards = new JoystickButton(stationController, 11);
-    if (smallArmUp.get()) {
-      // VEX CIM Motor supposed to go here
-    }
+    smallArmUp.toggleWhenPressed(new StartEndCommand(() -> lift.liftPower(-1), () -> lift.liftPower(0), lift));
+    smallArmDown.toggleWhenPressed(new StartEndCommand(() -> lift.liftPower(1), () -> lift.liftPower(0), lift));
+    bigArmToCenter.toggleWhenPressed(new StartEndCommand(() -> lift.pitchPower(-1), () -> lift.pitchPower(0), lift));
+    bigArmBackwards.toggleWhenPressed(new StartEndCommand(() -> lift.pitchPower(1), () -> lift.pitchPower(0), lift));
     // the other ones should be here too
 
     // TODO BELOW
@@ -101,9 +105,6 @@ public class RobotContainer {
     // Big Arm Holds (end)
 
     JoystickButton autoStep1 = new JoystickButton(stationController, 2);
-    if (autoStep1.get()) {
-
-    }
     JoystickButton autoStep2 = new JoystickButton(stationController, 4);
     JoystickButton autoStep3 = new JoystickButton(stationController, 6);
     JoystickButton autoStep4 = new JoystickButton(stationController, 8);
