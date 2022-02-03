@@ -25,13 +25,11 @@ public class Lift extends SubsystemBase {
 
 
   public void liftPower(double speed){
-      verticalMotors[0].set(speed);
-      verticalMotors[1].set(speed);
+    verticalMotors[0].set(speed);
   }
 
-  public void pitchPower(doubble speed){
-    pitchMotor[0].set(speed);
-    pitchMotor[1].set(speed);
+  public void pitchPower(double speed){
+    pitchMotors[0].set(speed);
   }
 
 
@@ -44,6 +42,7 @@ public class Lift extends SubsystemBase {
     super();
 
     verticalMotors[1].follow(verticalMotors[0]);
+    pitchMotors[1].follow(pitchMotors[0]);
     verticalMotors[1].setInverted(InvertType.OpposeMaster);
     // continue...
   }
