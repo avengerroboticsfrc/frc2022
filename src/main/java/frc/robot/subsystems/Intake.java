@@ -22,8 +22,8 @@ public class Intake extends SubsystemBase {
 
 
   private final WPI_VictorSPX[] intakeMotors = {
-    new WPI_VictorSPX(Constants.MainRobot.intakeMotor.ports[12]),
-    new WPI_VictorSPX(Constants.MainRobot.intakeMotor.ports[13])
+    new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[12]),
+    new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[13])
 };
 
 
