@@ -10,9 +10,29 @@ public class Shooter extends SubsystemBase {
       new WPI_VictorSPX(Constants.MainRobot.shooterMotor.ports[0]),
       new WPI_VictorSPX(Constants.MainRobot.shooterMotor.ports[1])
   };
+
+
+
+
   private final WPI_VictorSPX hoodMotor = new WPI_VictorSPX(Constants.MainRobot.hoodMotor.ports[0]);
+
+
+public void shooterPower(double speed){
+  flyWheelMotors[0].set(speed);
+}
+
+public void hoodPower(double speed){
+  hoodMotor[0].set(speed);
+}
+
+
 
   Shooter() {
     super();
+
+    flyWheelMotors[1].follow(flyWheelMotors[0]);
+    flyWheelMotors[1].setInverted(InvertType.OpposeMaster);
+
+
   }
 }
