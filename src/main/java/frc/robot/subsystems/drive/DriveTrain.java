@@ -13,8 +13,6 @@ public abstract class DriveTrain extends SubsystemBase {
 
   protected final DifferentialDrive driveTrain;
 
-  // private Orchestra music;
-
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
    */

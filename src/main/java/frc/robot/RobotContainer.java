@@ -30,7 +30,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driveSubsystem;
 
-  private final Command autoCommand;
+  //private final Command autoCommand;
   private Limelight limelightCamera = new Limelight();
 
   /**
@@ -107,7 +107,7 @@ public class RobotContainer {
     JoystickButton autoStep2 = new JoystickButton(stationController, 4);
     JoystickButton autoStep3 = new JoystickButton(stationController, 6);
     JoystickButton autoStep4 = new JoystickButton(stationController, 8);
-    JoystickButton pl = new JoystickButton(controller, 0);
+
   }
 
   /**
@@ -124,6 +124,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return autoCommand;
+    //return autoCommand;
+    return null;
   }
 }
