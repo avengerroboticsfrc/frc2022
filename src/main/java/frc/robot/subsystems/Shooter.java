@@ -22,7 +22,7 @@ public void shooterPower(double speed){
 }
 
 public void hoodPower(double speed){
-  hoodMotor[0].set(speed);
+  hoodMotor.set(speed);
 }
 
 
