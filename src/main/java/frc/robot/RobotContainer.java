@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
 import frc.robot.subsystems.drive.TestingDrive;
-import frc.robot.subsystems.Lift;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -54,7 +54,8 @@ public class RobotContainer {
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right. Has a constant turning radius.
     driveSubsystem.setDefaultCommand(
-        new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX) // pass in a reference to a method
+        // pass in a reference to a method
+        new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX)
     );
 
     // Configure the button bindings
@@ -82,13 +83,32 @@ public class RobotContainer {
     // Button 12 (Big Arm Angle to Center)
     // Button 11 (Big Arm Angle Backwards)
     JoystickButton smallArmUp = new JoystickButton(stationController, 5);
+    smallArmUp.toggleWhenPressed(new StartEndCommand(
+        () -> lift.liftPower(-1),
+        () -> lift.liftPower(0),
+        lift
+      ));
+    
     JoystickButton smallArmDown = new JoystickButton(stationController, 7);
+    smallArmDown.toggleWhenPressed(new StartEndCommand(
+        () -> lift.liftPower(1),
+        () -> lift.liftPower(0),
+        lift
+      ));
+    
     JoystickButton bigArmToCenter = new JoystickButton(stationController, 12);
+    bigArmToCenter.toggleWhenPressed(new StartEndCommand(
+        () -> lift.pitchPower(-1),
+        () -> lift.pitchPower(0),
+        lift
+      ));
+    
     JoystickButton bigArmBackwards = new JoystickButton(stationController, 11);
-    smallArmUp.toggleWhenPressed(new StartEndCommand(() -> lift.liftPower(-1), () -> lift.liftPower(0), lift));
-    smallArmDown.toggleWhenPressed(new StartEndCommand(() -> lift.liftPower(1), () -> lift.liftPower(0), lift));
-    bigArmToCenter.toggleWhenPressed(new StartEndCommand(() -> lift.pitchPower(-1), () -> lift.pitchPower(0), lift));
-    bigArmBackwards.toggleWhenPressed(new StartEndCommand(() -> lift.pitchPower(1), () -> lift.pitchPower(0), lift));
+    bigArmBackwards.toggleWhenPressed(new StartEndCommand(
+        () -> lift.pitchPower(1),
+        () -> lift.pitchPower(0),
+        lift
+      ));
     // the other ones should be here too
 
     // TODO BELOW
