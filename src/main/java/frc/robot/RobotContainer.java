@@ -109,25 +109,14 @@ public class RobotContainer {
         () -> lift.pitchPower(0),
         lift
       ));
-    // the other ones should be here too
-
-    // TODO BELOW
-    // The Process (Buttons 2, 4, 6, 8)
-    // Small Arm Down
-    // Make sure big arm has secured (or some other consistent method)
-    // Small Arm Up
-    // Big Arm Angle Backwards
-    // Small Arm Up (maybe simultaneously)
-    // Big Arm Angle to Center (more like 45 degrees)
-    // Small Arm Down
-    // Big Arm Angle to Center (and small arm up so it goes under the bar)
-    // Small Arm Down
-    // Big Arm Holds (end)
-
-    JoystickButton autoStep1 = new JoystickButton(stationController, 2);
-    JoystickButton autoStep2 = new JoystickButton(stationController, 4);
-    JoystickButton autoStep3 = new JoystickButton(stationController, 6);
-    JoystickButton autoStep4 = new JoystickButton(stationController, 8);
+    
+    // open button ports are 2, 4, 6, 8 (right side of the panel)
+    // JoystickButton preset1 = new JoystickButton(stationController, 2);
+    // preset1.toggleWhenPressed(new StartEndCommand(
+    //     () -> lift.preset1(1), 
+    //     () -> lift.preset1(0), 
+    //     lift
+    //   ));
 
   }
 
