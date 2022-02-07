@@ -109,6 +109,15 @@ public class RobotContainer {
         () -> lift.pitchPower(0),
         lift
       ));
+    
+    // open button ports are 2, 4, 6, 8 (right side of the panel)
+    // JoystickButton preset1 = new JoystickButton(stationController, 2);
+    // preset1.toggleWhenPressed(new StartEndCommand(
+    //     () -> lift.preset1(1), 
+    //     () -> lift.preset1(0), 
+    //     lift
+    //   ));
+
   }
 
   /**
