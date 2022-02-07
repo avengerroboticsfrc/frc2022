@@ -42,7 +42,8 @@ public final class Constants {
     hoodMotor(7),
     liftMotor(8, 9),
     pitchMotor(10, 11),
-    intakeMotors(999, 99);
+    intakeMotors(999, 99)
+    pneumatics(0, 1);
 
     public int[] ports;
 
