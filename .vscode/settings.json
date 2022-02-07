@@ -26,5 +26,11 @@
     },
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
-  "java.checkstyle.configuration": "/google_checks.xml"
+  "java.checkstyle.configuration": "/google_checks.xml",
+  "cSpell.words": [
+    "ADXRS",
+    "auton",
+    "Odometry",
+    "teleop"
+  ]
 }
