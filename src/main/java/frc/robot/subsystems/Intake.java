@@ -25,8 +25,8 @@ public class Intake extends SubsystemBase {
 
   // Creating Intake Motors
   private final WPI_VictorSPX[] intakeMotors = {
-      new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[12]),
-      new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[13])
+      new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[0]),
+      new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[1])
   };
 
   // Constructor
@@ -35,9 +35,9 @@ public class Intake extends SubsystemBase {
     super();
 
     // One intake motor will follow another
-    intakeMotors[13].follow(intakeMotors[12]);
+    intakeMotors[1].follow(intakeMotors[0]);
     // Invert one motor
-    intakeMotors[13].setInverted(InvertType.OpposeMaster);
+    intakeMotors[1].setInverted(InvertType.OpposeMaster);
     compressor.enableDigital();
   }
 
