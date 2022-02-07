@@ -11,7 +11,7 @@ import frc.robot.Constants;
 
 //Creates index class 
 public class Index extends SubsystemBase {
-  //creates the index motor
+  // Creates the index motor
   private final WPI_VictorSPX[] indexMotors = {
     new WPI_VictorSPX(Constants.MainRobot.indexMotors.ports[0]) 
   };
@@ -24,10 +24,5 @@ public class Index extends SubsystemBase {
   //Method that lifts the balls to the shooter
   public void liftBalls(double speed) {
     indexMotors[0].set(speed);
-
   }
-
 }
-    
-    
-

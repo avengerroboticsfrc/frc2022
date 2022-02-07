@@ -20,8 +20,11 @@ public class Intake extends SubsystemBase {
 
   // Creating Compressor and Solenoid Classes
   Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
-  // TODO: pull port numbers from the constants class
-  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.MainRobot.pneumatics.ports[0], Constants.MainRobot.pneumatics.ports[1]);
+  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
+      PneumaticsModuleType.REVPH,
+      Constants.MainRobot.pneumatics.ports[0],
+      Constants.MainRobot.pneumatics.ports[1]
+  );
 
   // Creating Intake Motors
   private final WPI_VictorSPX[] intakeMotors = {
@@ -31,7 +34,7 @@ public class Intake extends SubsystemBase {
 
   // Constructor
   public Intake() {
-    // Super subsystemclass as well
+    // init subsystem class
     super();
 
     // One intake motor will follow another
