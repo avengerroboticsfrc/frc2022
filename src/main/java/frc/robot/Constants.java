@@ -43,8 +43,8 @@ public final class Constants {
     liftMotor(8, 9),
     pitchMotor(10, 11),
     intakeMotors(999, 99),
-    indexMotors(69,69);
-
+    indexMotors(69,69),
+    pneumatics(0, 1);
 
     public int[] ports;
 
