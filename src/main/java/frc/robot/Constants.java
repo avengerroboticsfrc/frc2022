@@ -62,6 +62,8 @@ public final class Constants {
   public static final int controllerPort = 0;
 
   // Not actual values
+
+  // Voltage
   public static final double ksVoltz = -1;
   public static final double kvVoltSecondsPerMeter = -1;
   public static final double kaVoltSecondsSquaredPerMeter = -1;
