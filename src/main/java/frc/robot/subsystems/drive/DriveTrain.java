@@ -106,6 +106,18 @@ public abstract class DriveTrain extends SubsystemBase {
   }
 
   /**
+   * Controls the left and right sides of the drive directly with voltages.
+
+   * @param leftVolts the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors[0].setVoltage(leftVolts);
+    rightMotors[0].setVoltage(rightVolts);
+    driveTrain.feed();
+  }
+
+  /**
    * just call the arcadedrive method with a differential drive.
    */
   public void arcadeDrive(double speed, double rotation) {
