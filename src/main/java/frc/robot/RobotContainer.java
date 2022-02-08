@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
@@ -35,6 +37,7 @@ public class RobotContainer {
   //private final Command autoCommand;
   private Limelight limelightCamera = new Limelight();
   private Lift lift = new Lift();
+  private Intake intake = new Intake();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -82,32 +85,53 @@ public class RobotContainer {
     // Button 7 (Small Arm Down)
     // Button 12 (Big Arm Angle to Center)
     // Button 11 (Big Arm Angle Backwards)
-    JoystickButton smallArmUp = new JoystickButton(stationController, 5);
+    JoystickButton smallArmUp = new JoystickButton(stationController, 4);
     smallArmUp.toggleWhenPressed(new StartEndCommand(
         () -> lift.liftPower(-1),
         () -> lift.liftPower(0),
         lift
       ));
     
-    JoystickButton smallArmDown = new JoystickButton(stationController, 7);
+    JoystickButton smallArmDown = new JoystickButton(stationController, 3);
     smallArmDown.toggleWhenPressed(new StartEndCommand(
         () -> lift.liftPower(1),
         () -> lift.liftPower(0),
         lift
       ));
     
-    JoystickButton bigArmToCenter = new JoystickButton(stationController, 12);
+    JoystickButton bigArmToCenter = new JoystickButton(stationController, 2);
     bigArmToCenter.toggleWhenPressed(new StartEndCommand(
         () -> lift.pitchPower(-1),
         () -> lift.pitchPower(0),
         lift
       ));
     
-    JoystickButton bigArmBackwards = new JoystickButton(stationController, 11);
+    JoystickButton bigArmBackwards = new JoystickButton(stationController, 1);
     bigArmBackwards.toggleWhenPressed(new StartEndCommand(
         () -> lift.pitchPower(1),
         () -> lift.pitchPower(0),
         lift
+      ));
+
+
+      JoystickButton extendIntake = new JoystickButton(stationController, 4);
+      extendIntake.whenPressed(new RunCommand(
+        () -> intake.extend(),
+        intake
+      ));
+
+      JoystickButton retractIntake = new JoystickButton(stationController, 5);
+      retractIntake.whenPressed(new RunCommand(
+        () -> intake.retract(),
+        intake
+      ));
+
+
+      JoystickButton powerintakeMotors = new JoystickButton(stationController, 5);
+      powerintakeMotors.whenPressed(new StartEndCommand(
+        () -> intake.intakePower(0.5),
+        () -> intake.intakePower(0),
+        intake
       ));
     
     // open button ports are 2, 4, 6, 8 (right side of the panel)
