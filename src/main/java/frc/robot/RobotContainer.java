@@ -4,18 +4,33 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
 import frc.robot.subsystems.drive.TestingDrive;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -28,13 +43,16 @@ import frc.robot.subsystems.drive.TestingDrive;
  */
 public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
+  private final String trajectoryJson = "pathweaver/output/drive.wplib.json";
+  private Trajectory trajectory;
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driveSubsystem;
 
-  //private final Command autoCommand;
+  // private final Command autoCommand;
   private Limelight limelightCamera = new Limelight();
   private Lift lift = new Lift();
+  private Intake intake = new Intake();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -51,12 +69,19 @@ public class RobotContainer {
         driveSubsystem = new MainDrive();
     }
 
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException e) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
+      trajectory = null;
+    }
+
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right. Has a constant turning radius.
     driveSubsystem.setDefaultCommand(
         // pass in a reference to a method
-        new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX)
-    );
+        new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -82,41 +107,62 @@ public class RobotContainer {
     // Button 7 (Small Arm Down)
     // Button 12 (Big Arm Angle to Center)
     // Button 11 (Big Arm Angle Backwards)
-    JoystickButton smallArmUp = new JoystickButton(stationController, 5);
+    JoystickButton smallArmUp = new JoystickButton(stationController, 4);
     smallArmUp.toggleWhenPressed(new StartEndCommand(
         () -> lift.liftPower(-1),
         () -> lift.liftPower(0),
         lift
       ));
     
-    JoystickButton smallArmDown = new JoystickButton(stationController, 7);
+    JoystickButton smallArmDown = new JoystickButton(stationController, 3);
     smallArmDown.toggleWhenPressed(new StartEndCommand(
         () -> lift.liftPower(1),
         () -> lift.liftPower(0),
         lift
       ));
     
-    JoystickButton bigArmToCenter = new JoystickButton(stationController, 12);
+    JoystickButton bigArmToCenter = new JoystickButton(stationController, 2);
     bigArmToCenter.toggleWhenPressed(new StartEndCommand(
         () -> lift.pitchPower(-1),
         () -> lift.pitchPower(0),
         lift
       ));
     
-    JoystickButton bigArmBackwards = new JoystickButton(stationController, 11);
+    JoystickButton bigArmBackwards = new JoystickButton(stationController, 1);
     bigArmBackwards.toggleWhenPressed(new StartEndCommand(
         () -> lift.pitchPower(1),
         () -> lift.pitchPower(0),
         lift
       ));
+
+
+    JoystickButton extendIntake = new JoystickButton(stationController, 4);
+    extendIntake.whenPressed(new RunCommand(
+        () -> intake.extend(),
+        intake
+      ));
+
+    JoystickButton retractIntake = new JoystickButton(stationController, 5);
+    retractIntake.whenPressed(new RunCommand(
+        () -> intake.retract(),
+        intake
+      ));
+
+
+    JoystickButton powerintakeMotors = new JoystickButton(stationController, 5);
+    powerintakeMotors.whenPressed(new StartEndCommand(
+        () -> intake.intakePower(0.5),
+        () -> intake.intakePower(0),
+        intake
+      ));
     
     // open button ports are 2, 4, 6, 8 (right side of the panel)
     // JoystickButton preset1 = new JoystickButton(stationController, 2);
     // preset1.toggleWhenPressed(new StartEndCommand(
-    //     () -> lift.preset1(1), 
-    //     () -> lift.preset1(0), 
-    //     lift
-    //   ));
+    // () -> lift.preset1(1),
+    // () -> lift.preset1(0),
+    // lift
+    // ));
 
   }
 
@@ -133,8 +179,55 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    //return autoCommand;
-    return null;
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    var autoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+          new SimpleMotorFeedforward(
+            Constants.ksVolts,
+            Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter
+          ),
+          Constants.kDriveKinematics,
+          10
+        );
+
+    // Create config for trajectory
+    TrajectoryConfig config =
+
+        new TrajectoryConfig(
+          Constants.kMaxSpeedMeterPerSecond,
+          Constants.kMaxAccelerationMetersPerSecondSquared
+        )
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(Constants.kDriveKinematics)
+            // Apply the voltage constraint
+            .addConstraint(autoVoltageConstraint);
+
+    RamseteCommand ramseteCommand =
+        new RamseteCommand(
+          trajectory,
+          driveSubsystem::getPose,
+          new RamseteController(Constants.kRamsete, Constants.kRamseteZeta),
+          new SimpleMotorFeedforward(
+            Constants.ksVolts,
+            Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter
+          ),
+          Constants.kDriveKinematics,
+          driveSubsystem::getWheelSpeeds,
+          new PIDController(Constants.kPDriveVel, 0, 0),
+          new PIDController(Constants.kPDriveVel, 0, 0),
+          // RamseteCommand passes volts to the callback
+          driveSubsystem::tankDriveVolts,
+          driveSubsystem
+        );
+
+    // Reset odometry to the starting pose of the trajectory.
+
+    driveSubsystem.resetOdometry(trajectory.getInitialPose());
+
+    // Run path following command, then stop at the end.
+
+    return ramseteCommand.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
   }
 }

@@ -64,7 +64,7 @@ public final class Constants {
   // Not actual values
 
   // Voltage
-  public static final double ksVoltz = -1;
+  public static final double ksVolts = -1;
   public static final double kvVoltSecondsPerMeter = -1;
   public static final double kaVoltSecondsSquaredPerMeter = -1;
 
@@ -82,6 +82,10 @@ public final class Constants {
   // RAMSETE Parameters
   public static final double kRamsete = -1;
   public static final double kRamseteZeta = -1;
+<<<<<<< HEAD
   
   
 }  
+=======
+}
+>>>>>>> eee25fb488029c4545a2c2d7623047fc09bf81ef
