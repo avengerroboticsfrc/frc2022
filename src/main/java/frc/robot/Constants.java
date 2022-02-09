@@ -64,28 +64,28 @@ public final class Constants {
   // Not actual values
 
   // Voltage
-  public static final double ksVolts = -1;
-  public static final double kvVoltSecondsPerMeter = -1;
-  public static final double kaVoltSecondsSquaredPerMeter = -1;
+  public static final double ksVolts = 0.73197;
+  public static final double kvVoltSecondsPerMeter = 1.3102;
+  public static final double kaVoltSecondsSquaredPerMeter = 0.12537;
 
-  public static final double kPDriveVel = -1;
+  public static final double kPDriveVel = 2.3761;
 
   // Differential Drive Kinematics
-  public static final double kTrackwidthMeters = -1;
+  public static final double kTrackwidthMeters = 0.53;
   public static final DifferentialDriveKinematics kDriveKinematics = 
         new DifferentialDriveKinematics(kTrackwidthMeters);
   
   // Max Velocity/Acceleration
-  public static final double kMaxSpeedMeterPerSecond = -1;
-  public static final double kMaxAccelerationMetersPerSecondSquared = -1;
+  public static final double kMaxSpeedMeterPerSecond = 3;
+  public static final double kMaxAccelerationMetersPerSecondSquared = 3;
 
   // RAMSETE Parameters
   public static final double kRamsete = -1;
   public static final double kRamseteZeta = -1;
-<<<<<<< HEAD
   
   
 }  
-=======
+
+  public static final double kRamsete = 2;
+  public static final double kRamseteZeta = 0.7;
 }
->>>>>>> eee25fb488029c4545a2c2d7623047fc09bf81ef
