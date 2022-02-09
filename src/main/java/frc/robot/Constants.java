@@ -80,12 +80,9 @@ public final class Constants {
   public static final double kMaxAccelerationMetersPerSecondSquared = 3;
 
   // RAMSETE Parameters
-  public static final double kRamsete = -1;
-  public static final double kRamseteZeta = -1;
+  public static final double kRamsete = 2;
+  public static final double kRamseteZeta = 0.7;
   
   
 }  
 
-  public static final double kRamsete = 2;
-  public static final double kRamseteZeta = 0.7;
-}
