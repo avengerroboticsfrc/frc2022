@@ -31,12 +31,12 @@ public class AutonomousCommand extends CommandBase {
   }
 
 
-public void robotInit() {
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-      DriverStation.reportError("Cannot open trajectory: " + trajectoryJson, ex.getStackTrace());
+  public void robotInit() {
+      try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } catch (IOException ex) {
+        DriverStation.reportError("Cannot open trajectory: " + trajectoryJson, ex.getStackTrace());
+      }
     }
   }
-}
