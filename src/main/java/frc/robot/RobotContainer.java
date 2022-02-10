@@ -154,14 +154,14 @@ public class RobotContainer {
       ));
 
 
-    JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
+    /*JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
     powerintakeMotors.whenPressed(new StartCommand(
       if(toggleIntake == false){
         toggleIntake = true;
-      }else if (toggleIntake = true){
+      }else if (toggleIntake == true){
         toggleIntake = false;
       }
-      ));
+      ));*/
     
       while(toggleIntake = true){
         intake.intakePower(0.5);
