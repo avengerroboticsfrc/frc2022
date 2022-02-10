@@ -21,12 +21,6 @@ public class AutonomousCommand extends CommandBase {
    */
   public AutonomousCommand(Intake intakes) {
     this.intake = intakes;
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-      DriverStation.reportError("Cannot open trajectory: " + trajectoryJson, ex.getStackTrace());
-    }
   }
 
   @Override
@@ -35,4 +29,14 @@ public class AutonomousCommand extends CommandBase {
     intake.extend();
 
   }
-}
+
+
+  public void robotInit() {
+      try {
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
+        trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } catch (IOException ex) {
+        DriverStation.reportError("Cannot open trajectory: " + trajectoryJson, ex.getStackTrace());
+      }
+    }
+  }
