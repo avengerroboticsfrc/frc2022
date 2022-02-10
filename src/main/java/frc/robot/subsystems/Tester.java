@@ -1,17 +1,19 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 
 public class Tester {
-  final static Spark motor = new Spark(5);
+  final static TalonSRX motor = new TalonSRX(05);
 
   public static void runMotor() {
 
-    motor.set(.2);
+    motor.set(ControlMode.PercentOutput, 0.2);
 
   }
   public static void stopMotor() {
-    motor.set(0);
+    motor.set(ControlMode.PercentOutput, 0.0);
   }
 
 }
