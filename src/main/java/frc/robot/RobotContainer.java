@@ -45,7 +45,7 @@ import java.nio.file.Path;
  */
 public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
-  private final String trajectoryJson = "pathweaver/output/drive.wplib.json";
+  private final String trajectoryJson = "pathweaver/output/drive.wpilib.json";
   private Trajectory trajectory;
 
   // The robot's subsystems and commands are defined here...
