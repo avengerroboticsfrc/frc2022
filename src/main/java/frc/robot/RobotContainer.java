@@ -22,8 +22,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
@@ -53,7 +55,9 @@ public class RobotContainer {
   private Limelight limelightCamera = new Limelight();
   private Lift lift = new Lift();
   private Intake intake = new Intake();
-
+  private Shooter shooter = new Shooter();
+  private Shooter hood = new Shooter();
+  private Index index = new Index();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -107,28 +111,28 @@ public class RobotContainer {
     // Button 7 (Small Arm Down)
     // Button 12 (Big Arm Angle to Center)
     // Button 11 (Big Arm Angle Backwards)
-    JoystickButton smallArmUp = new JoystickButton(stationController, 4);
+    JoystickButton smallArmUp = new JoystickButton(stationController, 1);
     smallArmUp.toggleWhenPressed(new StartEndCommand(
         () -> lift.liftPower(-1),
         () -> lift.liftPower(0),
         lift
       ));
     
-    JoystickButton smallArmDown = new JoystickButton(stationController, 3);
+    JoystickButton smallArmDown = new JoystickButton(stationController, 2);
     smallArmDown.toggleWhenPressed(new StartEndCommand(
         () -> lift.liftPower(1),
         () -> lift.liftPower(0),
         lift
       ));
     
-    JoystickButton bigArmToCenter = new JoystickButton(stationController, 2);
+    JoystickButton bigArmToCenter = new JoystickButton(stationController, 3);
     bigArmToCenter.toggleWhenPressed(new StartEndCommand(
         () -> lift.pitchPower(-1),
         () -> lift.pitchPower(0),
         lift
       ));
     
-    JoystickButton bigArmBackwards = new JoystickButton(stationController, 1);
+    JoystickButton bigArmBackwards = new JoystickButton(stationController, 4);
     bigArmBackwards.toggleWhenPressed(new StartEndCommand(
         () -> lift.pitchPower(1),
         () -> lift.pitchPower(0),
@@ -136,26 +140,51 @@ public class RobotContainer {
       ));
 
 
-    JoystickButton extendIntake = new JoystickButton(stationController, 4);
+    JoystickButton extendIntake = new JoystickButton(stationController, 5);
     extendIntake.whenPressed(new RunCommand(
         () -> intake.extend(),
         intake
       ));
 
-    JoystickButton retractIntake = new JoystickButton(stationController, 5);
+    JoystickButton retractIntake = new JoystickButton(stationController, 6);
     retractIntake.whenPressed(new RunCommand(
         () -> intake.retract(),
         intake
       ));
 
 
-    JoystickButton powerintakeMotors = new JoystickButton(stationController, 5);
+    JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
     powerintakeMotors.whenPressed(new StartEndCommand(
         () -> intake.intakePower(0.5),
         () -> intake.intakePower(0),
         intake
       ));
     
+    JoystickButton powershooterMotors = new JoystickButton(stationController, 8);
+    powershooterMotors.whenPressed(new StartEndCommand(
+      () -> shooter.shooterPower(0.5),
+      () -> shooter.shooterPower(0),
+      shooter
+    ));
+
+    JoystickButton powerhoodMotors = new JoystickButton(stationController, 9);
+    powerhoodMotors.whenPressed(new StartEndCommand(
+      () -> hood.hoodPower(0.5),
+      () -> hood.hoodPower(0),
+      shooter
+    ));
+
+    JoystickButton powerindexMotors = new JoystickButton(stationController, 9);
+    powerindexMotors.whenPressed(new StartEndCommand(
+      () -> index.liftBalls(0.5),
+      () -> index.liftBalls(0),
+      index
+    ));
+
+
+
+
+
     // open button ports are 2, 4, 6, 8 (right side of the panel)
     // JoystickButton preset1 = new JoystickButton(stationController, 2);
     // preset1.toggleWhenPressed(new StartEndCommand(
