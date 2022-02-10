@@ -14,7 +14,7 @@ public class Shooter extends SubsystemBase {
   };
 
   // Shooter constructor
-  Shooter() {
+  public Shooter() {
     super();
 
     // flyWheelMotor1 will follow flyWheelMotor0

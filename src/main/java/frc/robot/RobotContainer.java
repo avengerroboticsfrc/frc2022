@@ -52,6 +52,7 @@ public class RobotContainer {
   private final DriveTrain driveSubsystem;
 
   // private final Command autoCommand;
+  private boolean toggleIntake = false; 
   private Limelight limelightCamera = new Limelight();
   private Lift lift = new Lift();
   private Intake intake = new Intake();
@@ -154,12 +155,22 @@ public class RobotContainer {
 
 
     JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
-    powerintakeMotors.whenPressed(new StartEndCommand(
-        () -> intake.intakePower(0.5),
-        () -> intake.intakePower(0),
-        intake
+    powerintakeMotors.whenPressed(new StartCommand(
+      if(toggleIntake == false){
+        toggleIntake = true;
+      }else if (toggleIntake = true){
+        toggleIntake = false;
+      }
       ));
     
+      while(toggleIntake = true){
+        intake.intakePower(0.5);
+      }
+
+      while(toggleIntake = false){
+        intake.intakePower(0);
+      }
+
     JoystickButton powershooterMotors = new JoystickButton(stationController, 8);
     powershooterMotors.whenPressed(new StartEndCommand(
       () -> shooter.shooterPower(0.5),
