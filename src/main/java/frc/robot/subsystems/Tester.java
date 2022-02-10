@@ -9,7 +9,7 @@ public class Tester {
 
   public static void runMotor() {
 
-    motor.set(ControlMode.PercentOutput, 0.2);
+    motor.set(ControlMode.PercentOutput, 1);
 
   }
   public static void stopMotor() {
