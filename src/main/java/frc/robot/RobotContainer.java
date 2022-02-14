@@ -45,7 +45,8 @@ import java.nio.file.Path;
  */
 public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
-  private final String trajectoryJson = "pathweaver/output/drive.wplib.json";
+  public String trajectoryJson = "paths/drive.wpilib.json";
+  
   private Trajectory trajectory;
 
   // The robot's subsystems and commands are defined here...
@@ -154,14 +155,14 @@ public class RobotContainer {
       ));
 
 
-    JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
+    /*JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
     powerintakeMotors.whenPressed(new StartCommand(
       if(toggleIntake == false){
         toggleIntake = true;
-      }else if (toggleIntake = true){
+      }else if (toggleIntake == true){
         toggleIntake = false;
       }
-      ));
+      ));*/
     
       while(toggleIntake = true){
         intake.intakePower(0.5);
