@@ -2,18 +2,27 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 
 public class Tester {
-  final static TalonSRX motor = new TalonSRX(05);
+  final static TalonSRX talon = new TalonSRX(05);
 
-  public static void runMotor() {
+  public static void runMotor(){
+  talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+  talon.set(ControlMode.Position, 0);
 
-    motor.set(ControlMode.PercentOutput, 1);
 
   }
+
   public static void stopMotor() {
-    motor.set(ControlMode.PercentOutput, 0.0);
+    talon.set(ControlMode.PercentOutput, 0.0);
   }
 
 }
