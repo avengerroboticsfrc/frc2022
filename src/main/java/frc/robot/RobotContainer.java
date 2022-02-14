@@ -229,7 +229,7 @@ public class RobotContainer {
           ),
           Constants.kDriveKinematics,
           10
-        );
+          );
 
     // Create config for trajectory
     TrajectoryConfig config =
