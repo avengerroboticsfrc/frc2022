@@ -155,7 +155,6 @@ public class RobotContainer {
       ));
 
 
-<<<<<<< Updated upstream
     /*JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
     powerintakeMotors.whenPressed(new StartCommand(
       if(toggleIntake == false){
@@ -164,7 +163,7 @@ public class RobotContainer {
         toggleIntake = false;
       }
       ));*/
-=======
+
     JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
     powerintakeMotors.whenPressed(new StartCommand())
       if(toggleIntake == false){ 
@@ -172,7 +171,6 @@ public class RobotContainer {
       }else if (toggleIntake == true){
         toggleIntake = false;
       }
->>>>>>> Stashed changes
     
       while(toggleIntake == true){
         intake.intakePower(0.5);
