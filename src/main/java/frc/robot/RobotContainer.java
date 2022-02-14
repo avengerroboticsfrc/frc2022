@@ -153,7 +153,6 @@ public class RobotContainer {
           intake
         ));
 
-
         JoystickButton toggleIntakes = new JoystickButton(stationController, 6);
         toggleIntakes.whenPressed(new RunCommand(
             () -> intake.toggleSpin(),
@@ -219,7 +218,7 @@ public class RobotContainer {
           ),
           Constants.kDriveKinematics,
           10
-        );
+          );
 
     // Create config for trajectory
     TrajectoryConfig config =
