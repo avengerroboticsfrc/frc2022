@@ -20,6 +20,7 @@ public class Intake extends SubsystemBase {
 
   // Creating Compressor and Solenoid Classes
   private boolean check;
+  private boolean toggleIntake = false;
   Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
       PneumaticsModuleType.REVPH,
@@ -66,6 +67,15 @@ public class Intake extends SubsystemBase {
     intakeSolenoid.set(Value.kReverse);
     check = false;
   }
+
+  public void toggleSpin(){
+    toggleIntake = !toggleIntake;
+
+    intakePower(toggleIntake ? .5 : 0);
+
+  }
+
+
 
   // Setting Intake Power
   public void intakePower(double speed) {

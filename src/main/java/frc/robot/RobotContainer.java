@@ -46,19 +46,18 @@ import java.nio.file.Path;
 public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
   public String trajectoryJson = "paths/drive.wpilib.json";
-  
   private Trajectory trajectory;
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain driveSubsystem;
 
   // private final Command autoCommand;
-  private boolean toggleIntake = false; 
   private Limelight limelightCamera = new Limelight();
   private Lift lift = new Lift();
   private Intake intake = new Intake();
   private Shooter shooter = new Shooter();
   private Shooter hood = new Shooter();
+  private boolean toggleIntake = false;
   private Index index = new Index();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -148,41 +147,20 @@ public class RobotContainer {
         intake
       ));
 
-    JoystickButton retractIntake = new JoystickButton(stationController, 6);
-    retractIntake.whenPressed(new RunCommand(
-        () -> intake.retract(),
-        intake
-      ));
+      JoystickButton retractIntake = new JoystickButton(stationController, 6);
+      retractIntake.whenPressed(new RunCommand(
+          () -> intake.retract(),
+          intake
+        ));
 
 
-<<<<<<< Updated upstream
-    /*JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
-    powerintakeMotors.whenPressed(new StartCommand(
-      if(toggleIntake == false){
-        toggleIntake = true;
-      }else if (toggleIntake == true){
-        toggleIntake = false;
-      }
-      ));*/
-=======
-    JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
-    powerintakeMotors.whenPressed(new StartCommand())
-      if(toggleIntake == false){ 
-        toggleIntake = true; 
-      }else if (toggleIntake == true){
-        toggleIntake = false;
-      }
->>>>>>> Stashed changes
+        JoystickButton toggleIntakes = new JoystickButton(stationController, 6);
+        toggleIntakes.whenPressed(new RunCommand(
+            () -> intake.toggleSpin(),
+            intake
+          ));
     
-      while(toggleIntake == true){
-        intake.intakePower(0.5);
-      }
-
-      while(toggleIntake == false){
-        intake.intakePower(0);
-      }
-    
-
+  
     JoystickButton powershooterMotors = new JoystickButton(stationController, 8);
     powershooterMotors.whenPressed(new StartEndCommand(
       () -> shooter.shooterPower(0.5),
