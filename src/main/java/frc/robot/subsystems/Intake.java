@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
 
   // Creating Compressor and Solenoid Classes
   private boolean check;
-  private boolean toggleIntake = false;
+  private static boolean toggleIntake = false;
   Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
       PneumaticsModuleType.REVPH,
@@ -72,7 +72,6 @@ public class Intake extends SubsystemBase {
     toggleIntake = !toggleIntake;
 
     intakePower(toggleIntake ? .5 : 0);
-
   }
 
 
@@ -80,11 +79,10 @@ public class Intake extends SubsystemBase {
   // Setting Intake Power
   public void intakePower(double speed) {
     // TODO: Add a check to see if the pneumatics are extended.
-    if(check == true){
+    if (check == true) {
       intakeMotors[12].set(speed);
-    }else{
+    } else {
       System.out.println("intake isn't extended");
     }
-    
   }
 }
