@@ -45,7 +45,7 @@ import java.nio.file.Path;
  */
 public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
-  public String trajectoryJson = "paths/drive.wpilib.json";
+  public String trajectoryJson = "pathweaver/output/drive.wpilib.json";
   
   private Trajectory trajectory;
 
@@ -155,32 +155,21 @@ public class RobotContainer {
       ));
 
 
-<<<<<<< Updated upstream
-    /*JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
-    powerintakeMotors.whenPressed(new StartCommand(
-      if(toggleIntake == false){
-        toggleIntake = true;
-      }else if (toggleIntake == true){
-        toggleIntake = false;
-      }
-      ));*/
-=======
-    JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
-    powerintakeMotors.whenPressed(new StartCommand())
-      if(toggleIntake == false){ 
-        toggleIntake = true; 
-      }else if (toggleIntake == true){
-        toggleIntake = false;
-      }
->>>>>>> Stashed changes
+    // JoystickButton powerintakeMotors = new JoystickButton(stationController, 7);
+    // powerintakeMotors.whenPressed(new StartCommand()
+    //   if(toggleIntake == false){ 
+    //     toggleIntake = true; 
+    //   }else if (toggleIntake == true){
+    //     toggleIntake = false;
+    //   }
     
-      while(toggleIntake == true){
-        intake.intakePower(0.5);
-      }
+    //   while(toggleIntake == true){
+    //     intake.intakePower(0.5);
+    //   }
 
-      while(toggleIntake == false){
-        intake.intakePower(0);
-      }
+    //   while(toggleIntake == false){
+    //     intake.intakePower(0);
+    //   }
     
 
     JoystickButton powershooterMotors = new JoystickButton(stationController, 8);

@@ -127,12 +127,12 @@ public abstract class DriveTrain extends SubsystemBase {
   /**
    * Curvature drive method for differential drivetrain.
 
-   * The rotation argument controls the curvature of the robot's path rather than
+   * The rotation argument controls the curvature of the robot's path rather thanS
    * its rate of heading change. This makes the robot more controllable at high
    * speeds.
    */
   public void curvatureDrive(double speed, double rotation) {
-    driveTrain.curvatureDrive(speed, rotation, false);
+    driveTrain.curvatureDrive(speed, rotation, true);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
