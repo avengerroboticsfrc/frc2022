@@ -22,7 +22,7 @@ public class Index extends SubsystemBase {
   }
 
   //Method that lifts the balls to the shooter
-  public void liftBalls(double speed) {
+  public void power(double speed) {
     indexMotors[0].set(speed);
   }
 }
