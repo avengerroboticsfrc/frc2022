@@ -33,6 +33,7 @@ import frc.robot.subsystems.drive.TestingDrive;
 
 import java.io.IOException;
 import java.nio.file.Path;
+                                                                                //RE ENABLE 89 91 94 MOVE 112 TO INTAKE INIT?
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -48,8 +49,8 @@ public class RobotContainer {
   public String trajectoryJson = "paths/drive.wpilib.json";
   private Trajectory trajectory;
 
-  // The robot's subsystems and commands are defined here...
-  private final DriveTrain driveSubsystem;
+  // The robot's subsystems and commands are defined here...     REMOVED FINAL? IMPORTANT?
+  private DriveTrain driveSubsystem;
 
   // private final Command autoCommand;
   private Limelight limelightCamera = new Limelight();
@@ -63,16 +64,16 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    switch (Constants.robotType) {
-      case MAIN_ROBOT:
-        driveSubsystem = new MainDrive();
-        break;
-      case PROGRAMMING_TESTING_ROBOT:
-        driveSubsystem = new TestingDrive();
-        break;
-      default:
-        driveSubsystem = new MainDrive();
-    }
+    // switch (Constants.robotType) {
+    //   case MAIN_ROBOT:
+    //     driveSubsystem = new MainDrive();
+    //     break;
+    //   case PROGRAMMING_TESTING_ROBOT:
+    //     driveSubsystem = new TestingDrive();
+    //     break;
+    //   default:
+    //     driveSubsystem = new MainDrive();
+    // }
 
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
@@ -82,11 +83,12 @@ public class RobotContainer {
       trajectory = null;
     }
 
+
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right. Has a constant turning radius.
-    driveSubsystem.setDefaultCommand(
+    //driveSubsystem.setDefaultCommand(
         // pass in a reference to a method
-        new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX));
+        //new DefaultDrive(driveSubsystem, controller::getLeftY, controller::getRightX));
 
     // Configure the button bindings
     //configureButtonBindings();
@@ -104,6 +106,11 @@ public class RobotContainer {
     // No clue what I'm doing
     // this is what I should have set up down there
     // MIGHT HAVE TO IMPLEMENT STATE CHANGE CHECK
+
+
+
+    intake = new Intake();
+
 
     // Declare the button panel
     Joystick stationController = new Joystick(0);
