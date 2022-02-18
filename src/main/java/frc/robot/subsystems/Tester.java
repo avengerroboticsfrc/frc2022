@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 
@@ -9,12 +10,20 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Tester {
   static final TalonSRX talon = new TalonSRX(05);
 
-  public static void runMotor() {
+  public Tester() {
     talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    talon.set(ControlMode.Position, 0);
+    talon.setNeutralMode(NeutralMode.Brake);
+    talon.setSelectedSensorPosition(0);
+    talon.setSensorPhase(true);
+  }
+  
+
+  public void runMotor() {
+    talon.set(ControlMode.Position, 1000);
   }
 
-  public static void stopMotor() {
+  public void stopMotor() {
     talon.set(ControlMode.PercentOutput, 0.0);
+
   }
 }

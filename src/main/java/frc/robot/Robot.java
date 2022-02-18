@@ -21,6 +21,7 @@ import frc.robot.subsystems.Tester;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private Tester testClass;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -29,6 +30,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    testClass = new Tester();
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -113,12 +116,14 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    testClass.stopMotor();
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    //Tester.runMotor();
+
+    testClass.runMotor();
   }
   
 }
