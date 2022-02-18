@@ -19,9 +19,10 @@ import frc.robot.subsystems.Tester;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
+  private Command autonomousCommand;
+  private RobotContainer robotContainer;
   private Tester testClass;
+  private Command teleCommand;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
   }
 
   /**
@@ -80,11 +81,11 @@ public class Robot extends TimedRobot {
     // start the intake
     // move forward to the original position
     // shoot 1 ball
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
     }
   }
 
@@ -99,11 +100,15 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
     }
 
-    // m_robotContainer.getTeleCommand().schedule();
+    teleCommand = robotContainer.getTeleCommand();
+
+    if (teleCommand != null) {
+      teleCommand.schedule();
+    }
   }
 
   /** This function is called periodically during operator control. */

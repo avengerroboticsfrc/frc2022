@@ -16,11 +16,9 @@ import frc.robot.Constants;
 
 //Creating Intake Class with SubsystemBase as an extension
 public class Intake extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
+  private static boolean isExtended;
 
   // Creating Compressor and Solenoid Classes
-  private boolean check;
-  private static boolean toggleIntake = false;
   Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
       PneumaticsModuleType.REVPH,
@@ -34,7 +32,9 @@ public class Intake extends SubsystemBase {
       new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[1])
   };
 
-  // Constructor
+  /**
+   * Constructor.
+   */
   public Intake() {
     // init subsystem class
     super();
@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
     intakeMotors[1].follow(intakeMotors[0]);
     // Invert one motor
     intakeMotors[1].setInverted(InvertType.OpposeMaster);
-    compressor.enableDigital();
+    start();
   }
 
   // Method Stoping Pneumatics System
@@ -59,30 +59,24 @@ public class Intake extends SubsystemBase {
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
     intakeSolenoid.set(Value.kForward);
-    check = true;
+    isExtended = true;
   }
 
   // Method Retracting Intake with Solenoids & Pneumatic System
   public void retract() {
     intakeSolenoid.set(Value.kReverse);
-    check = false;
+    isExtended = false;
   }
 
-  public void toggleSpin(){
-    toggleIntake = !toggleIntake;
-
-    intakePower(toggleIntake ? .5 : 0);
-  }
-
-
-
-  // Setting Intake Power
-  public void intakePower(double speed) {
-    // TODO: Add a check to see if the pneumatics are extended.
-    if (check == true) {
-      intakeMotors[12].set(speed);
+  /**
+   * set the power of the intake.
+   */
+  public void setPower(double speed) {
+    // checks if the pneumatics are extended.
+    if (isExtended) {
+      intakeMotors[0].set(speed);
     } else {
-      System.out.println("intake isn't extended");
+      intakeMotors[0].set(0);
     }
   }
 }

@@ -60,6 +60,7 @@ public final class Constants {
   }
 
   public static final int controllerPort = 0;
+  public static final int buttonPanelPort = 0;
 
   // Not actual values
 
