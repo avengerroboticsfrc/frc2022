@@ -33,7 +33,6 @@ import frc.robot.subsystems.drive.TestingDrive;
 
 import java.io.IOException;
 import java.nio.file.Path;
-                                                                                //RE ENABLE 89 91 94 MOVE 112 TO INTAKE INIT?
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,7 +52,6 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private DriveTrain drive;
-
   private Limelight limelight;
   private Lift lift;
   private Intake intake;
@@ -74,12 +72,12 @@ public class RobotContainer {
     }
 
     // Configure the button bindings
-    configureDriveTrain();
-    configureIntake();
-    configureShooter();
-    configureLift();
+    //configureDriveTrain();
+    //configureIntake();
+    //configureShooter();
+    //configureLift();
   }
-
+  
   private void configureDriveTrain() {
     switch (Constants.robotType) {
       case MAIN_ROBOT:

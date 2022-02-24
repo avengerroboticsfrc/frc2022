@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
   private Tester testClass;
   private Command teleCommand;
+  private Joystick joystick = new Joystick(0);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,9 +45,9 @@ public class Robot extends TimedRobot {
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
    * teleoperated and test.
-
-   * This runs after the mode specific periodic functions,
-   * but before LiveWindow and SmartDashboard integrated updating.
+   * 
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
@@ -114,6 +116,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    testClass.runMotor();
     // post to smart dashboard periodically
   }
 
@@ -121,14 +124,14 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    testClass.stopMotor();
   }
 
+  
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
 
-    testClass.runMotor();
+    testClass.commonLoop();
+
   }
-  
 }
