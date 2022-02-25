@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 //import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.*;
@@ -85,15 +86,15 @@ public class Tester {
   }
 
   
-  // public void test2() {
-	//   _talon.config_kF(slotIdx, 0);
-  //   _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-  //   _talon.setNeutralMode(NeutralMode.Brake);
-  //   _talon.configClosedloopRamp(.2);
-  //   _talon.configOpenloopRamp(1);
-  //   _talon.setSelectedSensorPosition(0);
-  //   _talon.setSensorPhase(false);
-  // }
+   public void test2() {
+    _talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    _talon.setNeutralMode(NeutralMode.Coast);
+    _talon.configClosedloopRamp(.2);
+    _talon.configOpenloopRamp(1);
+    _talon.setSelectedSensorPosition(0);
+    _talon.setSensorPhase(false);
+
+  }
   
 
   public void commonLoop() {
@@ -110,12 +111,6 @@ public class Tester {
   
       /* Get Talon/Victor's current output percentage */
       double motorOutput = _talon.getMotorOutputPercent();
-  
-      // /* Deadband gamepad */
-      // if (Math.abs(leftYstick) < 0.10) {
-      //   /* Within 10% of zero */
-      //   leftYstick = 0;
-      // }
   
       /* Prepare line to print */
       _sb.append("\tout:");
@@ -192,20 +187,20 @@ public class Tester {
   }
 
   public void testMotor() {
-    // xSpeed = _joy.getRawAxis(1) * -1; // make forward stick positive
+    xSpeed = _joy.getRawAxis(1) * -1; // make forward stick positive
 
-    // /* update motor controller */
-    // _talon.set(ControlMode.PercentOutput, xSpeed);
-    // /* check our live faults */
-    // _talon.getFaults(_faults);
-    // /* hold down btn1 to print stick values */
-    // if (_joy.getRawButton(1)) {
-    //   System.out.println("Sensor Vel:" + _talon.getSelectedSensorVelocity());
-    //   System.out.println("Sensor Pos:" + _talon.getSelectedSensorPosition());
-    //   System.out.println("Out %" + _talon.getMotorOutputPercent());
-    //   System.out.println("Out Of Phase:" + _faults.SensorOutOfPhase);
-    //   System.out.println((kMaxRPM  / 600) * (kSensorUnitsPerRotation / kGearRatio));
-    // }
+    /* update motor controller */
+    _talon.set(ControlMode.PercentOutput, xSpeed);
+    /* check our live faults */
+    _talon.getFaults(_faults);
+    /* hold down btn1 to print stick values */
+    if (_joy.getRawButton(1)) {
+      System.out.println("Sensor Vel:" + _talon.getSelectedSensorVelocity());
+      System.out.println("Sensor Pos:" + _talon.getSelectedSensorPosition());
+      System.out.println("Out %" + _talon.getMotorOutputPercent());
+      System.out.println("Out Of Phase:" + _faults.SensorOutOfPhase);
+      System.out.println((kMaxRPM  / 600) * (kSensorUnitsPerRotation / kGearRatio));
+    }
   }
 
   public void stopMotor() {

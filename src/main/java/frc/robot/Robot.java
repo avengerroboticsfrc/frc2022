@@ -116,7 +116,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    testClass.runMotor();
+    //testClass.runMotor();
+    testClass.test2();
     // post to smart dashboard periodically
   }
 
@@ -130,8 +131,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-
-    testClass.commonLoop();
+    testClass.testMotor();
+    //testClass.commonLoop();
 
   }
 }

@@ -7,8 +7,9 @@ import frc.robot.Constants;
 
 //Creates Shooter Class with its parent class as SubsystemBase
 public class Shooter extends SubsystemBase {
+  
   // Creates flyWheel motors
-  private final WPI_VictorSPX[] flyWheelMotors = {
+  private final WPI_VictorSPX[] flywheelMotors = {
       new WPI_VictorSPX(Constants.MainRobot.shooterMotor.ports[0]),
       new WPI_VictorSPX(Constants.MainRobot.shooterMotor.ports[1])
   };
@@ -18,9 +19,9 @@ public class Shooter extends SubsystemBase {
     super();
 
     // flyWheelMotor1 will follow flyWheelMotor0
-    flyWheelMotors[1].follow(flyWheelMotors[0]);
+    flywheelMotors[1].follow(flywheelMotors[0]);
     // Inverts flyWheelMotor1
-    flyWheelMotors[1].setInverted(InvertType.OpposeMaster);
+    flywheelMotors[1].setInverted(InvertType.OpposeMaster);
   }
 
   // Creates Hood Motors
@@ -28,7 +29,7 @@ public class Shooter extends SubsystemBase {
 
   // Method to make flyWheelMotors Move
   public void shooterPower(double speed) {
-    flyWheelMotors[0].set(speed);
+    flywheelMotors[0].set(speed);
   }
 
   // Method to make hood move

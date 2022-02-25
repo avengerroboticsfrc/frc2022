@@ -12,6 +12,7 @@ public class Gains {
 	public final double kPeakOutput;
 	
 	public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
+        //_kP = ;
 		kP = _kP;
 		kI = _kI;
 		kD = _kD;

@@ -36,7 +36,8 @@ public final class Constants {
 	 * Set to zero to skip waiting for confirmation, set to nonzero to wait and
 	 * report to DS if action fails.
 	 */
-	public static final int kTimeoutMs = 30;
+  public static final int kTimeoutMs = 30;
+
 	
 	/* Choose so that Talon does not report sensor out of phase */
 	public static boolean kSensorPhase = false;
@@ -45,7 +46,8 @@ public final class Constants {
 	 * Choose based on what direction you want to be positive,
 	 * this does not affect motor invert. 
 	 */
-	public static boolean kMotorInvert = false;
+  public static boolean kMotorInvert = false;
+
 
 	/**
 	 * Gains used in Positon Closed Loop, to be adjusted accordingly
@@ -54,21 +56,6 @@ public final class Constants {
   public static final Gains kGains = new Gains(0.15, 0.0, 1.0, 0.0, 0, 1.0);
 
   public static final RobotType robotType = RobotType.PROGRAMMING_TESTING_ROBOT;
-
-  public static enum TestingRobot {
-    leftDriveMotors(1, 10),
-    rightDriveMotors(2, 20);
-
-    public int[] ports;
-
-    TestingRobot(int port) {
-      this.ports = new int[] { port };
-    }
-
-    TestingRobot(int a, int b) {
-      this.ports = new int[] { a, b };
-    }
-  }
 
   public static enum MainRobot {
     leftDriveMotors(1, 4),
