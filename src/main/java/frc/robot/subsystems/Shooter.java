@@ -27,13 +27,4 @@ public class Shooter extends SubsystemBase {
   // Creates Hood Motors
   private final WPI_VictorSPX hoodMotor = new WPI_VictorSPX(Constants.MainRobot.hoodMotor.ports[0]);
 
-  // Method to make flyWheelMotors Move
-  public void shooterPower(double speed) {
-    flywheelMotors[0].set(speed);
-  }
-
-  // Method to make hood move
-  public void hoodPower(double speed) {
-    hoodMotor.set(speed);
-  }
 }
