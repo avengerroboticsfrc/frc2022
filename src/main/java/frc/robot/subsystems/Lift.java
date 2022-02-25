@@ -11,22 +11,10 @@ public class Lift extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
   // Creates Vertical Motors
-  private final WPI_VictorSPX[] verticalMotors = {
+  public final static WPI_VictorSPX[] verticalMotors = {
       new WPI_VictorSPX(Constants.MainRobot.liftMotor.ports[0]),
       new WPI_VictorSPX(Constants.MainRobot.liftMotor.ports[1])
   };
-
-  // Creates Pitch Motors
-  private final WPI_VictorSPX[] pitchMotors = {
-      new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[0]),
-      new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[1])
-  };
-
-  public Lift() {
-    verticalMotors[1].follow(verticalMotors[0]);
-    pitchMotors[1].follow(pitchMotors[0]);
-    verticalMotors[1].setInverted(InvertType.OpposeMaster);
-  }
 
   @Override
   public void periodic() {
