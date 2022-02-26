@@ -1,11 +1,21 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.DriverController;
 
 public class ShooterControl {
-    public void manualFlywheelMotors(){
+    public void manualFlywheel(){
 
     }
     
+    public void manualHood(){
+    if(DriverController.dPadUp){
+        Shooter.hoodMotor.set(.2);
+    }
+
+    }
+
+    public void manualTurret(){
+
+    }
 }
