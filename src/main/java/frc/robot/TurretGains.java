@@ -3,7 +3,7 @@
  */
 package frc.robot;
 
-public class Gains {
+public class TurretGains {
 	public final double kP;
 	public final double kI;
 	public final double kD;
@@ -11,8 +11,8 @@ public class Gains {
 	public final int kIzone;
 	public final double kPeakOutput;
 	
-	public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
-        //_kP = ;
+	public TurretGains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput){
+		//_kP = 0;
 		kP = _kP;
 		kI = _kI;
 		kD = _kD;

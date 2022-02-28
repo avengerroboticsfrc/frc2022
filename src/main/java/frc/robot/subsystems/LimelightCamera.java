@@ -5,13 +5,15 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight extends SubsystemBase {
-  private final NetworkTable table;
+public class LimelightCamera extends SubsystemBase {
+  private static NetworkTable table;
   private final double cc = -0.1; // Proportional control constant
   private final double minCommand = 0.05; // Minimum amount to slightly move the robot
+  public double tx;
+  public double ty;
+  public double ta;
 
-
-  public Limelight() {
+  public LimelightCamera() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
@@ -29,14 +31,12 @@ public class Limelight extends SubsystemBase {
     double steeringAdjust = 0.0;
     double targetX = getTargetXOffset();
 
-    steeringAdjust = (targetX > 1.0)
-        ? cc * -1 * targetX - minCommand
-        : cc * -1 * targetX + minCommand;
+    steeringAdjust = (targetX > 1.0) ? cc * -1 * targetX - minCommand : cc * -1 * targetX + minCommand;
 
     return steeringAdjust;
   }
 
-  private double getTargetXOffset() {
+  static double getTargetXOffset() {
     return table.getEntry("tx").getDouble(-1);
     //returns -1 if no target
   }
