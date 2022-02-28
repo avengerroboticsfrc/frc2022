@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
     flywheelMotor2.restoreFactoryDefaults();
     flywheelMotor1.setIdleMode(IdleMode.kCoast);
     flywheelMotor2.setIdleMode(IdleMode.kCoast);
-    flywheelMotor2.follow(flywheelMotor1);
+    flywheelMotor2.follow(flywheelMotor1, true);
     flywheelMotor1.setInverted(true);
     flywheelMotor1.setOpenLoopRampRate(3);
     
@@ -127,7 +127,7 @@ public class Shooter extends SubsystemBase {
 
 
   public void flywheelTest(){
-    flywheelMotor1.set((controller.getLJoystickY())*-1);
+    flywheelMotor1.set(1);
   }
 
 }
