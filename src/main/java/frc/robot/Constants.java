@@ -26,6 +26,7 @@ public final class Constants {
     rightDriveMotors(2, 3),
     shooterMotor(5, 6),
     hoodMotor(7),
+    turretTurnMotor(12),
     liftMotor(8, 9),
     pitchMotor(10, 11),
     intakeMotors(999, 99),
