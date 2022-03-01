@@ -2,17 +2,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-<<<<<<< HEAD
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-=======
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
->>>>>>> b6b58bda299b1f41eed257b99a4631da540a9cf9
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -26,14 +23,7 @@ import frc.robot.subsystems.LimelightCamera;
 
 //Creates Shooter Class with its parent class as SubsystemBase
 public class Shooter extends SubsystemBase {
-<<<<<<< HEAD
-
-  public XboxController controller = new XboxController(0);
-  
   //Creates flywheel motors
-=======
-  // Creates flywheel motors
->>>>>>> b6b58bda299b1f41eed257b99a4631da540a9cf9
   private final CANSparkMax flywheelMotor1 = new CANSparkMax(40, MotorType.kBrushless);
   private final CANSparkMax flywheelMotor2 = new CANSparkMax(41, MotorType.kBrushless);
 
@@ -53,8 +43,6 @@ public class Shooter extends SubsystemBase {
   public static final TurretGains kTurretGains = new TurretGains(0.15, 0.0, 1.0, 0.0, 0, 1.0);
   public static final int kTimeoutms = 100;
 
-  private final WPI_TalonSRX turretTurner;
-
   private static final int TICKS_PER_ROTATION = 4096;
 
   // Shooter constructor
@@ -67,12 +55,8 @@ public class Shooter extends SubsystemBase {
     flywheelMotor2.setIdleMode(IdleMode.kCoast);
     flywheelMotor2.follow(flywheelMotor1, true);
     flywheelMotor1.setInverted(true);
-<<<<<<< HEAD
     flywheelMotor1.setOpenLoopRampRate(1);
     
-=======
-    flywheelMotor1.setOpenLoopRampRate(3);
->>>>>>> b6b58bda299b1f41eed257b99a4631da540a9cf9
 
     hoodMotor.restoreFactoryDefaults();
     m_pidController = hoodMotor.getPIDController();
@@ -126,9 +110,7 @@ public class Shooter extends SubsystemBase {
     /* Set the quadrature (relative) sensor to match absolute */
     turretMotor.setSelectedSensorPosition(absolutePosition, kPIDLoopIdx, kTimeoutMs);
 
-
-    turretTurner = new WPI_TalonSRX(Constants.MainRobot.turretTurnMotor.ports[0]);
-    turretTurner.configClearPositionOnLimitR(true, 50);
+    turretMotor.configClearPositionOnLimitR(true, 50);
   }
 
   public void hoodTargeting() {
@@ -139,24 +121,6 @@ public class Shooter extends SubsystemBase {
   public void flywheelTargeting() {
   }
 
-<<<<<<< HEAD
-
-  public void flywheelTest(){
-    flywheelMotor1.set(controller.getRawAxis(0)*-1);
-  }
-
-public void turn(double d) {
-}
-
-public int getTurnPosition() {
-	return 0;
-}
-
-public void turnRotations(int i) {
-}
-
-}
-=======
   public void flywheelTest() {
     flywheelMotor1.set(1);
   }
@@ -172,15 +136,14 @@ public void turnRotations(int i) {
   }
 
   public void turn(double power) {
-    turretTurner.set(power);
+    turretMotor.set(power);
   }
->>>>>>> b6b58bda299b1f41eed257b99a4631da540a9cf9
 
   public void turnRotations(double ticks) {
-    turretTurner.set(ControlMode.Position, ticks * TICKS_PER_ROTATION);
+    turretMotor.set(ControlMode.Position, ticks * TICKS_PER_ROTATION);
   }
 
   public double getTurnPosition() {
-    return turretTurner.getSelectedSensorPosition(0);
+    return turretMotor.getSelectedSensorPosition(0);
   }
 }
