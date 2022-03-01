@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
@@ -21,7 +22,7 @@ import frc.robot.subsystems.Gamepad;
 //Creates Shooter Class with its parent class as SubsystemBase
 public class Shooter extends SubsystemBase {
 
-  Gamepad  controller = new Gamepad(new Joystick(0));
+  public XboxController controller = new XboxController(0);
   
   //Creates flywheel motors
   private final CANSparkMax flywheelMotor1 = new CANSparkMax(40, MotorType.kBrushless);
@@ -55,7 +56,7 @@ public class Shooter extends SubsystemBase {
     flywheelMotor2.setIdleMode(IdleMode.kCoast);
     flywheelMotor2.follow(flywheelMotor1, true);
     flywheelMotor1.setInverted(true);
-    flywheelMotor1.setOpenLoopRampRate(3);
+    flywheelMotor1.setOpenLoopRampRate(1);
     
 
     hoodMotor.restoreFactoryDefaults();
@@ -127,8 +128,18 @@ public class Shooter extends SubsystemBase {
 
 
   public void flywheelTest(){
-    flywheelMotor1.set(1);
+    flywheelMotor1.set(controller.getRawAxis(0)*-1);
   }
+
+public void turn(double d) {
+}
+
+public int getTurnPosition() {
+	return 0;
+}
+
+public void turnRotations(int i) {
+}
 
 }
 
