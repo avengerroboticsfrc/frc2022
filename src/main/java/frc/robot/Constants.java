@@ -19,16 +19,32 @@ public final class Constants {
     PROGRAMMING_TESTING_ROBOT,
     MAIN_ROBOT
   }
-  public static final RobotType robotType = RobotType.PROGRAMMING_TESTING_ROBOT;
+
+  public static final RobotType robotType = RobotType.MAIN_ROBOT;
+
+  public static enum TestingRobot {
+    leftDriveMotors(1, 10),
+    rightDriveMotors(2, 20);
+
+    public int[] ports;
+
+    TestingRobot(int port) {
+      this.ports = new int[] { port };
+    }
+
+    TestingRobot(int a, int b) {
+      this.ports = new int[] { a, b };
+    }
+  }
 
   public static enum MainRobot {
-    leftDriveMotors(1, 4),
-    rightDriveMotors(2, 3),
-    shooterMotor(5, 6),
-    hoodMotor(7),
-    turretTurnMotor(12),
+    leftDriveMotors(1, 10),
+    rightDriveMotors(2, 20),
+    shooterMotor(3, 4),
+    hoodMotor(5),
+    turretTurnMotor(6),
     liftMotor(8, 9),
-    pitchMotor(10, 11),
+    pitchMotor(7, 11),
     intakeMotors(999, 99),
     indexMotors(69,69),
     pneumatics(0, 1);
