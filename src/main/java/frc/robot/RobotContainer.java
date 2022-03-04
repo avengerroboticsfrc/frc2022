@@ -27,7 +27,6 @@ import frc.robot.subsystems.LimelightCamera;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
-import frc.robot.subsystems.drive.TestingDrive;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -75,13 +74,15 @@ public class RobotContainer {
     configureLift();
   }
 
+
+
+
+
+
   private void configureDriveTrain() {
     switch (Constants.robotType) {
       case MAIN_ROBOT:
         drive = new MainDrive();
-        break;
-      case PROGRAMMING_TESTING_ROBOT:
-        drive = new TestingDrive();
         break;
       default:
         drive = new MainDrive();
@@ -93,6 +94,11 @@ public class RobotContainer {
         // pass in a reference to a method
         new DefaultDrive(drive, controller::getLeftY, controller::getRightX));
   }
+
+
+
+
+
 
   private void configureIntake() {
     intake = new Intake();
@@ -110,6 +116,11 @@ public class RobotContainer {
     JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 6);
     toggleIntakes.whenPressed(new ToggleIntakeCommand(intake));
   }
+
+
+
+
+
 
   private void configureShooter() {
     shooter = new Shooter();
@@ -132,6 +143,11 @@ public class RobotContainer {
         () -> index.power(0),
         index));
   }
+
+
+
+
+
 
   private void configureLift() {
     lift = new Lift();
@@ -176,6 +192,11 @@ public class RobotContainer {
     // lift
     // ));
   }
+
+
+
+
+
 
   /**
    * returns the teleop command.

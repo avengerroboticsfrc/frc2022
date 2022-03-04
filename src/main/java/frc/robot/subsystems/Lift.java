@@ -12,14 +12,14 @@ public class Lift extends SubsystemBase {
 
   // Creates Vertical Motors
   private final WPI_VictorSPX[] verticalMotors = {
-      new WPI_VictorSPX(Constants.MainRobot.liftMotor.ports[0]),
-      new WPI_VictorSPX(Constants.MainRobot.liftMotor.ports[1])
+      new WPI_VictorSPX(Constants.MainRobot.liftMotors.ports[0]),
+      new WPI_VictorSPX(Constants.MainRobot.liftMotors.ports[1])
   };
 
   // Creates Pitch Motors
   private final WPI_VictorSPX[] pitchMotors = {
-      new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[0]),
-      new WPI_VictorSPX(Constants.MainRobot.pitchMotor.ports[1])
+      new WPI_VictorSPX(Constants.MainRobot.armMotors.ports[0]),
+      new WPI_VictorSPX(Constants.MainRobot.armMotors.ports[1])
   };
 
   // TODO: maybe give these better names?
