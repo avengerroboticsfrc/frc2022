@@ -124,6 +124,10 @@ public abstract class DriveTrain extends SubsystemBase {
     driveTrain.arcadeDrive(speed, rotation);
   }
 
+  public void tankDrive(double leftTrain, double rightTrain)  {
+    driveTrain.tankDrive(leftTrain, rightTrain);
+  }
+
   /**
    * Curvature drive method for differential drivetrain.
 
@@ -131,8 +135,17 @@ public abstract class DriveTrain extends SubsystemBase {
    * its rate of heading change. This makes the robot more controllable at high
    * speeds.
    */
-  public void curvatureDrive(double speed, double rotation) {
-    driveTrain.curvatureDrive(speed, rotation, true);
+  public void curvatureDrive(double speed, double rotation, boolean turn) {
+
+    //test code, no idea if it works. may create straight driving environment
+    if(rotation !=0) {
+      gyro.reset();
+    }
+
+    double rot2 = ((rotation - gyro.getAngle())*0.05);
+    rot2 = Math.copySign(rot2, rotation);
+
+    driveTrain.curvatureDrive(speed, rot2, turn);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
@@ -155,5 +168,9 @@ public abstract class DriveTrain extends SubsystemBase {
         + rightMotors[0].getSelectedSensorPosition() * -1
         + rightMotors[1].getSelectedSensorPosition() * -1
       ) / 4;
+  }
+
+  public void gyroCalibrate() {
+    gyro.calibrate();
   }
 }

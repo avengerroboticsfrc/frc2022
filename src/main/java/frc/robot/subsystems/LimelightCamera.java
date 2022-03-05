@@ -24,18 +24,18 @@ public class LimelightCamera extends SubsystemBase {
   /**
    * uses the targetXOffset value to calculate the steeringAdjust value.
    */
-  public double getSteeringAdjust() {
-    double steeringAdjust = 0.0;
-    double targetX = getTargetXOffset();
+  // public double getSteeringAdjust() {
+  //   double steeringAdjust = 0.0;
+  //   double targetX = getTargetXOffset();
 
-    steeringAdjust = (targetX > 1.0)
-        ? cc * -1 * targetX - minCommand
-        : cc * -1 * targetX + minCommand;
+  //   steeringAdjust = (targetX > 1.0)
+  //       ? cc * -1 * targetX - minCommand
+  //       : cc * -1 * targetX + minCommand;
 
-    return steeringAdjust;
-  }
+  //   return steeringAdjust;
+  // }
 
-  private double getTargetXOffset() {
+  public double getTargetXOffset() {
     return table.getEntry("tx").getDouble(-1);
     //returns -1 if no target
   }

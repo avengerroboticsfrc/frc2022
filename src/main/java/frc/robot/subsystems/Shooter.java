@@ -36,10 +36,7 @@ public class Shooter extends SubsystemBase {
   public static boolean kMotorInvert = false;
   public static final TurretGains kTurretGains = new TurretGains(0.15, 0.0, 1.0, 0.0, 0, 1.0);
   public static final HoodGains kHoodGains = new HoodGains(0.15, 0, 1, 0, 0, 0, .3);
-
-   
-
-  private static final int TICKS_PER_ROTATION = 4096;
+  private static final int TicksPerRotation = 4096;
 
   // Shooter constructor
   public Shooter() {
@@ -83,6 +80,12 @@ public class Shooter extends SubsystemBase {
     turretMotor.config_kP(kPIDLoopIdx, kTurretGains.kP, kTimeoutMs);
     turretMotor.config_kI(kPIDLoopIdx, kTurretGains.kI, kTimeoutMs);
     turretMotor.config_kD(kPIDLoopIdx, kTurretGains.kD, kTimeoutMs);
+    //Sets software limits
+    turretMotor.configForwardSoftLimitEnable(true, kTimeoutMs);
+    turretMotor.configForwardSoftLimitThreshold(20480, kTimeoutMs);
+    turretMotor.configReverseSoftLimitEnable(true, kTimeoutMs);
+    turretMotor.configReverseSoftLimitThreshold(-20480, kTimeoutMs);
+
 
     /**
      * Grab the 360 degree position of the MagEncoder's absolute
@@ -105,8 +108,6 @@ public class Shooter extends SubsystemBase {
     turretMotor.configClearPositionOnLimitR(true, 50);
   }
  
-
-
 
   public void hoodTargeting() {
     // hoodMotor.set((LimelightCamera.getTargetXOffset())*.03);
@@ -135,24 +136,17 @@ public class Shooter extends SubsystemBase {
     hoodMotor.set(speed);
   }
 
-
-
-
-  public void turn(double power) {
-    turretMotor.set(power);
-  }
-
-
-
-
   public void turnRotations(double ticks) {
-    turretMotor.set(ControlMode.Position, ticks * TICKS_PER_ROTATION);
+    turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
   }
 
-
-
-  
   public double getTurnPosition() {
     return turretMotor.getSelectedSensorPosition(0);
   }
+
+
+
+
+public void turn(double d) {
+}
 }

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.TestingDrive;
 import frc.robot.commands.ToggleIntakeCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
@@ -27,7 +28,6 @@ import frc.robot.subsystems.LimelightCamera;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
-
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -84,15 +84,20 @@ public class RobotContainer {
       case MAIN_ROBOT:
         drive = new MainDrive();
         break;
+      case PROGRAMMING_TESTING_ROBOT:
+        drive = new MainDrive();
+        break;
       default:
         drive = new MainDrive();
     }
 
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right. Has a constant turning radius.
+    // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        new DefaultDrive(drive, controller::getLeftY, controller::getRightX));
+        new DefaultDrive(drive, controller::getLeftY, controller::getRightX, controller::getBButton));
+        //new TestingDrive(drive, controller::getLeftY, controller::getRightX);
   }
 
 
