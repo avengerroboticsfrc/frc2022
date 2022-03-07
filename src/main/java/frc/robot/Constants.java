@@ -27,12 +27,12 @@ public final class Constants {
     leftDriveMotors(1, 10),
     rightDriveMotors(2, 20),
     shooterMotor(40),
-    hoodMotor(5),
+    hoodMotor(41),
     liftMotors(8, 9),
     armMotors(7, 11),
-    intakeMotors(30),
+    intakeMotors(12),
     indexMotors(31),
-    pneumatics(15, 16);
+    turretMotor(5);
 
     public int[] ports;
 
@@ -46,7 +46,7 @@ public final class Constants {
   }
 
   public static final int controllerPort = 0;
-  public static final int buttonPanelPort = 0;
+  public static final int buttonPanelPort = 1;
 
   // Not actual values
 

@@ -7,14 +7,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
 import frc.robot.HoodGains;
 import frc.robot.TurretGains;
-import frc.robot.subsystems.LimelightCamera;
 
 //Creates Shooter Class with its parent class as SubsystemBase
 public class Shooter extends SubsystemBase {
@@ -22,13 +20,12 @@ public class Shooter extends SubsystemBase {
   private final TalonFX flywheelMotor = new TalonFX(40);
 
   // Creates hood motor and sets PID values
-  private final CANSparkMax hoodMotor = new CANSparkMax(50, MotorType.kBrushless);
-
+  private final CANSparkMax hoodMotor = new CANSparkMax(41, MotorType.kBrushless);
   private SparkMaxPIDController hoodPidController;
   private RelativeEncoder hoodEncoder;
 
   // Creates turret motor and sets PID values
-  public final WPI_TalonSRX turretMotor = new WPI_TalonSRX(49);
+  public final WPI_TalonSRX turretMotor = new WPI_TalonSRX(5);
   public static final int kSlotIdx = 0;
   public static final int kPIDLoopIdx = 0;
   public static final int kTimeoutMs = 30;
@@ -67,8 +64,8 @@ public class Shooter extends SubsystemBase {
     /* Config the peak and nominal outputs, 12V means full */
     turretMotor.configNominalOutputForward(0, kTimeoutMs);
     turretMotor.configNominalOutputReverse(0, kTimeoutMs);
-    turretMotor.configPeakOutputForward(1, kTimeoutMs);
-    turretMotor.configPeakOutputReverse(-1, kTimeoutMs);
+    turretMotor.configPeakOutputForward(.3, kTimeoutMs);
+    turretMotor.configPeakOutputReverse(-.3, kTimeoutMs);
     /**
      * Config the allowable closed-loop error, Closed-Loop output will be
      * neutral within this range. See Table in Section 17.2.1 for native
@@ -108,13 +105,19 @@ public class Shooter extends SubsystemBase {
     turretMotor.configClearPositionOnLimitR(true, 50);
   }
  
+  public void turnRotations(double ticks) {
+    turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
+  }
 
   public void hoodTargeting() {
-    // hoodMotor.set((LimelightCamera.getTargetXOffset())*.03);
     hoodPidController.setReference(4096, CANSparkMax.ControlType.kPosition);
   }
 
+  public void turretControl() {
 
+  }
+
+  
 
 
   public void flywheelTargeting() {
@@ -136,15 +139,13 @@ public class Shooter extends SubsystemBase {
     hoodMotor.set(speed);
   }
 
-  public void turnRotations(double ticks) {
-    turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
-  }
-
   public double getTurnPosition() {
     return turretMotor.getSelectedSensorPosition(0);
   }
 
 
+
+  
 
 
 public void turn(double d) {

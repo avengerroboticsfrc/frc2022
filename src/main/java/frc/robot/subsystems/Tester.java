@@ -12,7 +12,15 @@
 
 
 
+
 // public class Tester {
+
+//   public static final int kSlotIdx = 0;
+//   public static final int kPIDLoopIdx = 0;
+//   public static final int kTimeoutMs = 30;
+//   public static boolean kSensorPhase = false;
+//   public static boolean kMotorInvert = false;
+//   public static final TurretGains kGains = new TurretGains(0.15, 0.0, 1.0, 0.0, 0, 1.0);
 //   static final TalonSRX _talon = new TalonSRX(05);
 //   static final int kSensorUnitsPerRotation = 4096;
 //   static final int kMaxRPM = 13180;

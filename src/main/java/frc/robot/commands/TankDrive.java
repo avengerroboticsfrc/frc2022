@@ -5,7 +5,7 @@ import frc.robot.subsystems.drive.DriveTrain;
 
 import java.util.function.DoubleSupplier;
 
-public class TestingDrive extends CommandBase {
+public class TankDrive extends CommandBase {
   private final DriveTrain drive;
   private final DoubleSupplier left;
   private final DoubleSupplier right;
@@ -17,7 +17,7 @@ public class TestingDrive extends CommandBase {
    * @param left   The control input for driving lefts/backwards
    * @param right  The control input for turning
    */ 
-  public TestingDrive(DriveTrain subsystem, DoubleSupplier left, DoubleSupplier right) {
+  public TankDrive(DriveTrain subsystem, DoubleSupplier left, DoubleSupplier right) {
     super();
 
     this.drive = subsystem;

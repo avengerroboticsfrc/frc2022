@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 //More Imports
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -20,17 +21,10 @@ public class Intake extends SubsystemBase {
 
   // Creating Compressor and Solenoid Classes
   Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
-  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(
-      PneumaticsModuleType.REVPH,
-      Constants.MainRobot.pneumatics.ports[0],
-      Constants.MainRobot.pneumatics.ports[1]
-  );
+  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 
   // Creating Intake Motors
-  private final WPI_VictorSPX[] intakeMotors = {
-      new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[0]),
-      new WPI_VictorSPX(Constants.MainRobot.intakeMotors.ports[1])
-  };
+  private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(12);
 
   /**
    * Constructor.
@@ -38,11 +32,8 @@ public class Intake extends SubsystemBase {
   public Intake() {
     // init subsystem class
     super();
-
-    // One intake motor will follow another
-    intakeMotors[1].follow(intakeMotors[0]);
-    // Invert one motor
-    intakeMotors[1].setInverted(InvertType.OpposeMaster);
+    compressor.enableDigital();
+    intakeMotor.setNeutralMode(NeutralMode.Coast);
     start();
   }
 
@@ -74,9 +65,9 @@ public class Intake extends SubsystemBase {
   public void setPower(double speed) {
     // checks if the pneumatics are extended.
     if (isExtended) {
-      intakeMotors[0].set(speed);
+      intakeMotor.set(speed);
     } else {
-      intakeMotors[0].set(0);
+      intakeMotor.set(0);
     }
   }
 }

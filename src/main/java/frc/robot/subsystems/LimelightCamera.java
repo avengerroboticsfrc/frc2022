@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightCamera extends SubsystemBase {
   private final NetworkTable table;
-  private final double cc = -0.1; // Proportional control constant
-  private final double minCommand = 0.05; // Minimum amount to slightly move the robot
+  // private final double cc = -0.1; // Proportional control constant
+  // private final double minCommand = 0.05; // Minimum amount to slightly move
+  // the robot
 
   public LimelightCamera() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -25,19 +26,36 @@ public class LimelightCamera extends SubsystemBase {
    * uses the targetXOffset value to calculate the steeringAdjust value.
    */
   // public double getSteeringAdjust() {
-  //   double steeringAdjust = 0.0;
-  //   double targetX = getTargetXOffset();
+  // double steeringAdjust = 0.0;
+  // double targetX = getTargetXOffset();
 
-  //   steeringAdjust = (targetX > 1.0)
-  //       ? cc * -1 * targetX - minCommand
-  //       : cc * -1 * targetX + minCommand;
+  // steeringAdjust = (targetX > 1.0)
+  // ? cc * -1 * targetX - minCommand
+  // : cc * -1 * targetX + minCommand;
 
-  //   return steeringAdjust;
+  // return steeringAdjust;
   // }
+
+  public double getHoodAdjust() {
+    double tx = table.getEntry("tx").getDouble(-1);
+    float Kp = -0.1f;
+    float min_command = 0.05f;
+    float heading_error = (float) -tx;
+    float steering_adjust = 0.0f;
+    if (tx > 1.0)
+    {
+            steering_adjust = Kp*heading_error - min_command;
+    }
+    else if (tx < 1.0)
+    {
+            steering_adjust = Kp*heading_error + min_command;
+    }
+    return steering_adjust;
+  }
 
   public double getTargetXOffset() {
     return table.getEntry("tx").getDouble(-1);
-    //returns -1 if no target
+    // returns -1 if no target
   }
 
   private double getTargetYOffset() {
@@ -47,4 +65,5 @@ public class LimelightCamera extends SubsystemBase {
   private double getTargetArea() {
     return table.getEntry("ta").getDouble(-1);
   }
+
 }

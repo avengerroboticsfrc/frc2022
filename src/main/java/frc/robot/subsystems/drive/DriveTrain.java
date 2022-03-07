@@ -145,6 +145,7 @@ public abstract class DriveTrain extends SubsystemBase {
     double rot2 = ((rotation - gyro.getAngle())*0.05);
     rot2 = Math.copySign(rot2, rotation);
 
+
     driveTrain.curvatureDrive(speed, rot2, turn);
   }
 

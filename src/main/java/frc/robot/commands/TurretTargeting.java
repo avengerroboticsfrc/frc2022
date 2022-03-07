@@ -2,30 +2,46 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.LimelightCamera;
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TurretTargeting {
-    private LimelightCamera limelight = new LimelightCamera();
-    private Shooter turret = new Shooter();
+public class TurretTargeting extends CommandBase {
 
-    public TurretTargeting() {
+  private final Shooter turret;
+  private final LimelightCamera limelight;
+
+  public TurretTargeting(Shooter sub, LimelightCamera sub2) {
+      turret = sub;
+      limelight = sub2;
+      addRequirements(turret, limelight);
+  }
+
+/**
+ * A simple command that grabs a hatch with the {@link HatchSubsystem}. Written explicitly for
+ * pedagogical purposes. Actual code should inline a command this simple with {@link
+ * edu.wpi.first.wpilibj2.command.InstantCommand}.
+ */
+// public class GrabHatch extends CommandBase {
+//   // The subsystem the command runs on
+//   private final HatchSubsystem m_hatchSubsystem;
+
+//   public GrabHatch(HatchSubsystem subsystem) {
+//     m_hatchSubsystem = subsystem;
+//     addRequirements(m_hatchSubsystem);
+//   }
+
+  @Override
+  public void initialize() {  
+  System.out.println("init");
     }
 
-    public void AimTurret() {
-        double Kp = -0.1f;
-        double min_command = 0.05f;
-        double tx = limelight.getTargetXOffset();
-        double heading_error = tx *-1;
-        double steering_adjust = 0.0f;
-        
-        if (tx > 1.0)
-        {
-                steering_adjust = Kp*heading_error - min_command;
-        }
-        else if (tx < 1.0)
-        {
-                steering_adjust = Kp*heading_error + min_command;
-        }
-        turret.turnRotations(steering_adjust);
-    
+    @Override
+    public void execute() {
+        turret.turnRotations(limelight.getHoodAdjust());
+      System.out.println(limelight.getHoodAdjust());
     }
+
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }
