@@ -18,9 +18,17 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import frc.robot.subsystems.drive.*;
+
+import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.TargetTurretCommand;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.LimelightCamera;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.drive.DriveTrain;
+import frc.robot.subsystems.drive.MainDrive;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -47,7 +55,6 @@ public class RobotContainer {
   private final Index index = new Index();
   private final Shooter shooter = new Shooter();
   private final LimelightCamera limelight = new LimelightCamera();
-  private final TurretTargeting turretTargeting = new TurretTargeting(shooter, limelight);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,11 +74,6 @@ public class RobotContainer {
     configureLift();
   }
 
-  
-
-
-
-  
   private void configureDriveTrain() {
     switch (Constants.robotType) {
       case MAIN_ROBOT:
@@ -89,14 +91,14 @@ public class RobotContainer {
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        new DefaultDrive(drive, controller::getLeftY, controller::getRightX, controller::getLeftBumper));
-        //new TankDrive(drive, controller::getLeftY, controller::getRightX, controller::getLeftTriggerAxis);
+        new DefaultDrive(
+          drive,
+          controller::getLeftY,
+          controller::getRightX,
+          controller::getLeftBumper
+        )
+    );
   }
-
-
-
-
-
 
   private void configureIntake() {
 
@@ -114,30 +116,21 @@ public class RobotContainer {
 
     JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 7);
     toggleIntakes.toggleWhenPressed(new StartEndCommand(
-      () -> intake.intakePower(.25),
-      () -> intake.intakePower(0),
-      intake));
+        () -> intake.intakePower(.25),
+        () -> intake.intakePower(0),
+        intake));
   }
 
-
-
-
-
-
   private void configureShooter() {
-
     //configures Shooter commands
 
     JoystickButton automaticTargeting = new JoystickButton(buttonPanel, 12);
-    automaticTargeting.toggleWhenPressed(new RunCommand(
-      () -> turretTargeting.execute(), 
-      shooter, limelight
-    ));
+    automaticTargeting.toggleWhenPressed(new TargetTurretCommand(shooter, limelight));
 
     JoystickButton manualTargeting = new JoystickButton(buttonPanel, 10);
     manualTargeting.toggleWhenPressed(new RunCommand(
-      () -> shooter.runTurret(controller.getRightX()),
-      shooter, limelight
+        () -> shooter.runTurret(controller.getRightX()),
+        shooter, limelight
     ));
 
     JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 11);
@@ -151,13 +144,7 @@ public class RobotContainer {
         () -> index.power(0.85),
         () -> index.power(0),
         index));
-
   }
-
-
-
-
-
 
   private void configureLift() {
 
@@ -204,17 +191,12 @@ public class RobotContainer {
     // ));
   }
 
-
-
-
-
-
   /**
    * returns the teleop command.
    */
   public Command getTeleCommand() {
-    //return drive.getDefaultCommand();
-    return null;
+    return drive.getDefaultCommand();
+    // return null;
   }
 
   /**

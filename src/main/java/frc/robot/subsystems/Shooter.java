@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
@@ -109,7 +108,11 @@ public class Shooter extends SubsystemBase {
     turretMotor.configClearPositionOnLimitR(true, 50);
     flywheelMotor.set(ControlMode.PercentOutput, 0);
   }
- 
+
+  public void turn(double power) {
+    turretMotor.set(ControlMode.PercentOutput, power);
+  }
+
   public void turnRotations(double ticks) {
     turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
   }
@@ -128,9 +131,6 @@ public class Shooter extends SubsystemBase {
     flywheelMotor.set(ControlMode.PercentOutput, speed);
   }
 
-
-
-
   // Method to make hood move
   public void hoodPower(double speed) {
   }
@@ -138,12 +138,4 @@ public class Shooter extends SubsystemBase {
   public double getTurnPosition() {
     return turretMotor.getSelectedSensorPosition(0);
   }
-
-
-
-  
-
-
-public void turn(double d) {
-}
 }
