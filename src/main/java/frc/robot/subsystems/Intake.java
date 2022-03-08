@@ -5,9 +5,9 @@
 package frc.robot.subsystems;
 
 //More Imports
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -20,11 +20,11 @@ public class Intake extends SubsystemBase {
   private static boolean isExtended;
 
   // Creating Compressor and Solenoid Classes
-  Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
-  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+  Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
   // Creating Intake Motors
-  private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(12);
+  private final CANSparkMax intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
 
   /**
    * Constructor.
@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
     // init subsystem class
     super();
     compressor.enableDigital();
-    intakeMotor.setNeutralMode(NeutralMode.Coast);
+    intakeMotor.setIdleMode(IdleMode.kCoast);
     start();
   }
 
@@ -62,12 +62,8 @@ public class Intake extends SubsystemBase {
   /**
    * set the power of the intake.
    */
-  public void setPower(double speed) {
-    // checks if the pneumatics are extended.
-    if (isExtended) {
-      intakeMotor.set(speed);
-    } else {
-      intakeMotor.set(0);
-    }
+  public void intakePower(double speed) {
+    intakeMotor.set(speed);
   }
+  
 }

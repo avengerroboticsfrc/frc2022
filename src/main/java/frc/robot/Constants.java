@@ -31,7 +31,7 @@ public final class Constants {
     liftMotors(8, 9),
     armMotors(7, 11),
     intakeMotors(12),
-    indexMotors(31),
+    indexMotors(6),
     turretMotor(5);
 
     public int[] ports;

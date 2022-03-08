@@ -37,14 +37,14 @@ public class RobotContainer {
   private final XboxController controller = new XboxController(Constants.controllerPort);
   private final Joystick buttonPanel = new Joystick(Constants.buttonPanelPort);
 
-  public final String trajectoryJson = "paths/drive.path";
+  public final String trajectoryJson = "pathweaver/drive.wpilib.json";
   private Trajectory trajectory;
 
   // The robot's subsystems and commands are defined here...
   private DriveTrain drive;
-  private Lift lift;
-  private Intake intake;
-  private Index index;
+  private final Lift lift = new Lift();
+  private final Intake intake = new Intake();
+  private final Index index = new Index();
   private final Shooter shooter = new Shooter();
   private final LimelightCamera limelight = new LimelightCamera();
   private final TurretTargeting turretTargeting = new TurretTargeting(shooter, limelight);
@@ -61,13 +61,13 @@ public class RobotContainer {
       trajectory = null;
     }
     // Configure the button bindings
-    configureDriveTrain();
+    //configureDriveTrain();
     configureIntake();
     configureShooter();
     configureLift();
   }
 
-
+  
 
 
 
@@ -89,8 +89,8 @@ public class RobotContainer {
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        new DefaultDrive(drive, controller::getLeftY, controller::getRightX, controller::getBButton));
-        //new TankDrive(drive, controller::getLeftY, controller::getRightX);
+        new DefaultDrive(drive, controller::getLeftY, controller::getRightX, controller::getLeftBumper));
+        //new TankDrive(drive, controller::getLeftY, controller::getRightX, controller::getLeftTriggerAxis);
   }
 
 
@@ -99,7 +99,8 @@ public class RobotContainer {
 
 
   private void configureIntake() {
-    intake = new Intake();
+
+    //Configures intake commands
     
     JoystickButton extendIntake = new JoystickButton(buttonPanel, 5);
     extendIntake.whenPressed(new RunCommand(
@@ -111,8 +112,11 @@ public class RobotContainer {
         () -> intake.retract(),
         intake));
 
-    JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 6);
-    toggleIntakes.whenPressed(new ToggleIntakeCommand(intake));
+    JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 7);
+    toggleIntakes.toggleWhenPressed(new StartEndCommand(
+      () -> intake.intakePower(.25),
+      () -> intake.intakePower(0),
+      intake));
   }
 
 
@@ -121,29 +125,33 @@ public class RobotContainer {
 
 
   private void configureShooter() {
-    JoystickButton automaticTargeting = new JoystickButton(buttonPanel, 9);
+
+    //configures Shooter commands
+
+    JoystickButton automaticTargeting = new JoystickButton(buttonPanel, 12);
     automaticTargeting.toggleWhenPressed(new RunCommand(
       () -> turretTargeting.execute(), 
       shooter, limelight
     ));
 
-    // JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 8);
-    // powershooterMotors.whenPressed(new StartEndCommand(
-    //     () -> shooter.flywheelPower(0.5),
-    //     () -> shooter.flywheelPower(0),
-    //     shooter));
+    JoystickButton manualTargeting = new JoystickButton(buttonPanel, 10);
+    manualTargeting.toggleWhenPressed(new RunCommand(
+      () -> shooter.runTurret(controller.getRightX()),
+      shooter, limelight
+    ));
 
-    // JoystickButton powerhoodMotors = new JoystickButton(buttonPanel, 9);
-    // powerhoodMotors.whenPressed(new StartEndCommand(
-    //     () -> shooter.hoodPower(0.5),
-    //     () -> shooter.hoodPower(0),
-    //     shooter));
+    JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 11);
+    powershooterMotors.toggleWhenPressed(new StartEndCommand(
+        () -> shooter.runFlywheel(1),
+        () -> shooter.runFlywheel(0),
+        shooter));
 
-    // JoystickButton powerindexMotors = new JoystickButton(buttonPanel, 9);
-    // powerindexMotors.whenPressed(new StartEndCommand(
-    //     () -> index.power(0.5),
-    //     () -> index.power(0),
-    //     index));
+    JoystickButton powerindexMotors = new JoystickButton(buttonPanel, 9);
+    powerindexMotors.toggleWhenPressed(new StartEndCommand(
+        () -> index.power(0.85),
+        () -> index.power(0),
+        index));
+
   }
 
 
@@ -152,7 +160,8 @@ public class RobotContainer {
 
 
   private void configureLift() {
-    lift = new Lift();
+
+    //Configures lift commands
 
     // No clue what I'm doing
     // this is what I should have set up down there
@@ -164,13 +173,13 @@ public class RobotContainer {
     // Button 11 (Big Arm Angle Backwards)
     JoystickButton smallArmUp = new JoystickButton(buttonPanel, 1);
     smallArmUp.toggleWhenPressed(new StartEndCommand(
-        () -> lift.liftPower(-1),
+        () -> lift.liftPower(-.5),
         () -> lift.liftPower(0),
         lift));
 
     JoystickButton smallArmDown = new JoystickButton(buttonPanel, 2);
     smallArmDown.toggleWhenPressed(new StartEndCommand(
-        () -> lift.liftPower(1),
+        () -> lift.liftPower(.5),
         () -> lift.liftPower(0),
         lift));
 
@@ -204,8 +213,6 @@ public class RobotContainer {
    * returns the teleop command.
    */
   public Command getTeleCommand() {
-
-
     //return drive.getDefaultCommand();
     return null;
   }

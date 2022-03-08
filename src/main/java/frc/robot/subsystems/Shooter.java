@@ -3,8 +3,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -31,7 +34,7 @@ public class Shooter extends SubsystemBase {
   public static final int kTimeoutMs = 30;
   public static boolean kSensorPhase = false;
   public static boolean kMotorInvert = false;
-  public static final TurretGains kTurretGains = new TurretGains(0.15, 0.0, 1.0, 0.0, 0, 1.0);
+  public static final TurretGains kTurretGains = new TurretGains(0., 0.0, 0, 0.0, 0, 1);
   public static final HoodGains kHoodGains = new HoodGains(0.15, 0, 1, 0, 0, 0, .3);
   private static final int TicksPerRotation = 4096;
 
@@ -82,7 +85,8 @@ public class Shooter extends SubsystemBase {
     turretMotor.configForwardSoftLimitThreshold(20480, kTimeoutMs);
     turretMotor.configReverseSoftLimitEnable(true, kTimeoutMs);
     turretMotor.configReverseSoftLimitThreshold(-20480, kTimeoutMs);
-
+    turretMotor.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_10Ms);
+    turretMotor.configVelocityMeasurementWindow(32);
 
     /**
      * Grab the 360 degree position of the MagEncoder's absolute
@@ -103,6 +107,7 @@ public class Shooter extends SubsystemBase {
     turretMotor.setSelectedSensorPosition(absolutePosition, kPIDLoopIdx, kTimeoutMs);
 
     turretMotor.configClearPositionOnLimitR(true, 50);
+    flywheelMotor.set(ControlMode.PercentOutput, 0);
   }
  
   public void turnRotations(double ticks) {
@@ -113,22 +118,14 @@ public class Shooter extends SubsystemBase {
     hoodPidController.setReference(4096, CANSparkMax.ControlType.kPosition);
   }
 
-  public void turretControl() {
-
+  public void runTurret(double speed) {
+    turretMotor.set(ControlMode.PercentOutput, speed);
+    System.out.println(speed);
   }
-
-  
-
-
-  public void flywheelTargeting() {
-  }
-
-
-
 
   // Method to make flyWheelMotors Move
-  public void flywheelPower(double speed) {
-    flywheelMotor.set(ControlMode.Position, 1);
+  public void runFlywheel(double speed) {
+    flywheelMotor.set(ControlMode.PercentOutput, speed);
   }
 
 
@@ -136,7 +133,6 @@ public class Shooter extends SubsystemBase {
 
   // Method to make hood move
   public void hoodPower(double speed) {
-    hoodMotor.set(speed);
   }
 
   public double getTurnPosition() {
