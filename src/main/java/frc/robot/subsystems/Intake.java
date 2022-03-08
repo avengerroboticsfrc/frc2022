@@ -20,8 +20,8 @@ public class Intake extends SubsystemBase {
   private static boolean isExtended;
 
   // Creating Compressor and Solenoid Classes
-  Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-  DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+  private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
   // Creating Intake Motors
   private final CANSparkMax intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
@@ -50,13 +50,11 @@ public class Intake extends SubsystemBase {
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
     intakeSolenoid.set(Value.kForward);
-    isExtended = true;
   }
 
   // Method Retracting Intake with Solenoids & Pneumatic System
   public void retract() {
     intakeSolenoid.set(Value.kReverse);
-    isExtended = false;
   }
 
   /**
@@ -65,5 +63,5 @@ public class Intake extends SubsystemBase {
   public void intakePower(double speed) {
     intakeMotor.set(speed);
   }
-  
+
 }

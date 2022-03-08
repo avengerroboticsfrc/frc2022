@@ -102,12 +102,12 @@ public class RobotContainer {
 
     //Configures intake commands
     
-    JoystickButton extendIntake = new JoystickButton(buttonPanel, 5);
+    JoystickButton extendIntake = new JoystickButton(buttonPanel, 6);
     extendIntake.whenPressed(new RunCommand(
         () -> intake.extend(),
         intake));
 
-    JoystickButton retractIntake = new JoystickButton(buttonPanel, 6);
+    JoystickButton retractIntake = new JoystickButton(buttonPanel, 5);
     retractIntake.whenPressed(new RunCommand(
         () -> intake.retract(),
         intake));
