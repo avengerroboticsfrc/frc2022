@@ -49,12 +49,12 @@ public class RobotContainer {
   private Trajectory trajectory;
 
   // The robot's subsystems and commands are defined here...
-  private DriveTrain drive;
-  private final Lift lift = new Lift();
-  private final Intake intake = new Intake();
-  private final Index index = new Index();
-  private final Shooter shooter = new Shooter();
-  private final LimelightCamera limelight = new LimelightCamera();
+  private final DriveTrain drive;
+  private final Lift lift;
+  private final Intake intake;
+  private final Index index;
+  private final Shooter shooter;
+  private final LimelightCamera limelight;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,41 +67,34 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       trajectory = null;
     }
+
+    drive = new MainDrive();
+    lift = new Lift();
+    intake = new Intake();
+    index = new Index();
+    shooter = new Shooter();
+    limelight = new LimelightCamera();
+
     // Configure the button bindings
-    //configureDriveTrain();
+    configureDriveTrain();
     configureIntake();
     configureShooter();
     configureLift();
   }
 
   private void configureDriveTrain() {
-    switch (Constants.robotType) {
-      case MAIN_ROBOT:
-        drive = new MainDrive();
-        break;
-      case PROGRAMMING_TESTING_ROBOT:
-        drive = new MainDrive();
-        break;
-      default:
-        drive = new MainDrive();
-    }
-
     // A split-stick arcade command, with forward/backward controlled by the left
     // hand, and turning controlled by the right. Has a constant turning radius.
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
         new DefaultDrive(
-          drive,
-          controller::getLeftY,
-          controller::getRightX,
-          controller::getLeftBumper
+          drive, controller::getLeftY, controller::getRightX, controller::getLeftBumper
         )
     );
   }
 
   private void configureIntake() {
-
     //Configures intake commands
     
     JoystickButton extendIntake = new JoystickButton(buttonPanel, 6);
@@ -159,36 +152,31 @@ public class RobotContainer {
     // Button 12 (Big Arm Angle to Center)
     // Button 11 (Big Arm Angle Backwards)
     JoystickButton smallArmUp = new JoystickButton(buttonPanel, 1);
-    smallArmUp.toggleWhenPressed(new StartEndCommand(
-        () -> lift.liftPower(-.5),
+    smallArmUp.whenPressed(new StartEndCommand(
+        () -> lift.liftPower(-.7),
         () -> lift.liftPower(0),
         lift));
 
     JoystickButton smallArmDown = new JoystickButton(buttonPanel, 2);
-    smallArmDown.toggleWhenPressed(new StartEndCommand(
+    smallArmDown.whenPressed(new StartEndCommand(
         () -> lift.liftPower(.5),
         () -> lift.liftPower(0),
         lift));
 
     JoystickButton bigArmToCenter = new JoystickButton(buttonPanel, 3);
-    bigArmToCenter.toggleWhenPressed(new StartEndCommand(
+    bigArmToCenter.whenPressed(new StartEndCommand(
         () -> lift.pitchPower(-1),
         () -> lift.pitchPower(0),
         lift));
 
     JoystickButton bigArmBackwards = new JoystickButton(buttonPanel, 4);
-    bigArmBackwards.toggleWhenPressed(new StartEndCommand(
+    bigArmBackwards.whenPressed(new StartEndCommand(
         () -> lift.pitchPower(1),
         () -> lift.pitchPower(0),
         lift));
 
     // open button ports are 2, 4, 6, 8 (right side of the panel)
     // JoystickButton preset1 = new JoystickButton(stationController, 2);
-    // preset1.toggleWhenPressed(new StartEndCommand(
-    // () -> lift.preset1(1),
-    // () -> lift.preset1(0),
-    // lift
-    // ));
   }
 
   /**
