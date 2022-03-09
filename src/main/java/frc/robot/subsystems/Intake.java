@@ -32,7 +32,6 @@ public class Intake extends SubsystemBase {
   public Intake() {
     // init subsystem class
     super();
-    compressor.enableDigital();
     intakeMotor.setIdleMode(IdleMode.kCoast);
     start();
   }

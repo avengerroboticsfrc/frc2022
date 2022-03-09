@@ -12,15 +12,15 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.TargetTurretCommand;
+import frc.robot.commands.ToggleIntakeCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lift;
@@ -42,7 +42,7 @@ import java.nio.file.Path;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final XboxController controller = new XboxController(Constants.controllerPort);
+  private PS4Controller controller = new PS4Controller(Constants.controllerPort);
   private final Joystick buttonPanel = new Joystick(Constants.buttonPanelPort);
 
   public final String trajectoryJson = "pathweaver/drive.wpilib.json";
@@ -55,6 +55,7 @@ public class RobotContainer {
   private final Index index;
   private final Shooter shooter;
   private final LimelightCamera limelight;
+  private final TargetTurretCommand turretTargeting;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -67,19 +68,23 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       trajectory = null;
     }
-
     drive = new MainDrive();
     lift = new Lift();
     intake = new Intake();
     index = new Index();
     shooter = new Shooter();
     limelight = new LimelightCamera();
+    turretTargeting = new TargetTurretCommand(shooter, limelight);
 
     // Configure the button bindings
     configureDriveTrain();
     configureIntake();
     configureShooter();
     configureLift();
+  }
+
+  public void calibrateTheGyro() {
+
   }
 
   private void configureDriveTrain() {
@@ -89,7 +94,7 @@ public class RobotContainer {
     drive.setDefaultCommand(
         // pass in a reference to a method
         new DefaultDrive(
-          drive, controller::getLeftY, controller::getRightX, controller::getLeftBumper
+          drive, controller::getL2Axis, controller::getR2Axis, controller::getLeftX, controller::getCircleButton
         )
     );
   }
@@ -97,82 +102,72 @@ public class RobotContainer {
   private void configureIntake() {
     //Configures intake commands
     
-    JoystickButton extendIntake = new JoystickButton(buttonPanel, 6);
-    extendIntake.whenPressed(new RunCommand(
-        () -> intake.extend(),
-        intake));
-
-    JoystickButton retractIntake = new JoystickButton(buttonPanel, 5);
-    retractIntake.whenPressed(new RunCommand(
-        () -> intake.retract(),
-        intake));
+    JoystickButton extendIntake = new JoystickButton(buttonPanel, 3);
+    extendIntake.whenPressed(new ToggleIntakeCommand(intake));
 
     JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 7);
-    toggleIntakes.toggleWhenPressed(new StartEndCommand(
+    toggleIntakes.whenHeld(new StartEndCommand(
         () -> intake.intakePower(.25),
         () -> intake.intakePower(0),
         intake));
+
+    JoystickButton toggleIntakeOut = new JoystickButton(buttonPanel, 8);
+      toggleIntakeOut.whenHeld(new StartEndCommand(
+        () -> intake.intakePower(-.25),
+        () -> intake.intakePower(0),
+        intake));
+
   }
 
   private void configureShooter() {
     //configures Shooter commands
 
-    JoystickButton automaticTargeting = new JoystickButton(buttonPanel, 12);
-    automaticTargeting.toggleWhenPressed(new TargetTurretCommand(shooter, limelight));
-
-    JoystickButton manualTargeting = new JoystickButton(buttonPanel, 10);
-    manualTargeting.toggleWhenPressed(new RunCommand(
-        () -> shooter.runTurret(controller.getRightX()),
-        shooter, limelight
+    JoystickButton automaticTargeting = new JoystickButton(buttonPanel, 9);
+    automaticTargeting.whileHeld(new RunCommand(
+      () -> turretTargeting.execute(), 
+      shooter, limelight
     ));
 
-    JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 11);
+    // JoystickButton manualTargeting = new JoystickButton(buttonPanel, 10);
+    // manualTargeting.toggleWhenPressed(new RunCommand(
+    //     () -> shooter.runTurret(controller.getRightX()),
+    //     shooter, limelight
+    // ));
+
+    JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 10);
     powershooterMotors.toggleWhenPressed(new StartEndCommand(
         () -> shooter.runFlywheel(1),
         () -> shooter.runFlywheel(0),
         shooter));
 
-    JoystickButton powerindexMotors = new JoystickButton(buttonPanel, 9);
-    powerindexMotors.toggleWhenPressed(new StartEndCommand(
-        () -> index.power(0.85),
+    JoystickButton powerIndexUp = new JoystickButton(buttonPanel, 5);
+    powerIndexUp.toggleWhenPressed(new StartEndCommand(
+    () -> index.power(0.8),
+    () -> index.power(0),
+    index));
+
+    JoystickButton powerIndexOut = new JoystickButton(buttonPanel, 6);
+        powerIndexOut.toggleWhenPressed(new StartEndCommand(
+        () -> index.power(-0.8),
         () -> index.power(0),
         index));
+
+
+
   }
 
   private void configureLift() {
-
-    //Configures lift commands
-
-    // No clue what I'm doing
-    // this is what I should have set up down there
-    // MIGHT HAVE TO IMPLEMENT STATE CHANGE CHECK
-
-    // Button 5 (Small Arm Up)
-    // Button 7 (Small Arm Down)
-    // Button 12 (Big Arm Angle to Center)
-    // Button 11 (Big Arm Angle Backwards)
+    //configures lift commands
     JoystickButton smallArmUp = new JoystickButton(buttonPanel, 1);
-    smallArmUp.whenPressed(new StartEndCommand(
-        () -> lift.liftPower(-.7),
-        () -> lift.liftPower(0),
+    smallArmUp.whenHeld(new StartEndCommand(
+        () -> lift.liftPower(-.5),
+        () -> lift.liftStop(),
         lift));
 
     JoystickButton smallArmDown = new JoystickButton(buttonPanel, 2);
-    smallArmDown.whenPressed(new StartEndCommand(
-        () -> lift.liftPower(.5),
-        () -> lift.liftPower(0),
-        lift));
-
-    JoystickButton bigArmToCenter = new JoystickButton(buttonPanel, 3);
-    bigArmToCenter.whenPressed(new StartEndCommand(
-        () -> lift.pitchPower(-1),
-        () -> lift.pitchPower(0),
-        lift));
-
-    JoystickButton bigArmBackwards = new JoystickButton(buttonPanel, 4);
-    bigArmBackwards.whenPressed(new StartEndCommand(
-        () -> lift.pitchPower(1),
-        () -> lift.pitchPower(0),
+    smallArmDown.whenHeld(new StartEndCommand(
+        () -> lift.liftPower(1),
+        () -> lift.liftStop(),
         lift));
 
     // open button ports are 2, 4, 6, 8 (right side of the panel)

@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
   public static final int kTimeoutMs = 30;
   public static boolean kSensorPhase = false;
   public static boolean kMotorInvert = false;
-  public static final TurretGains kTurretGains = new TurretGains(0., 0.0, 0, 0.0, 0, 1);
+  public static final TurretGains kTurretGains = new TurretGains(0, 0, 0, .1705, 0, 1);
   public static final HoodGains kHoodGains = new HoodGains(0.15, 0, 1, 0, 0, 0, .3);
   private static final int TicksPerRotation = 4096;
 
@@ -66,8 +66,8 @@ public class Shooter extends SubsystemBase {
     /* Config the peak and nominal outputs, 12V means full */
     turretMotor.configNominalOutputForward(0, kTimeoutMs);
     turretMotor.configNominalOutputReverse(0, kTimeoutMs);
-    turretMotor.configPeakOutputForward(.3, kTimeoutMs);
-    turretMotor.configPeakOutputReverse(-.3, kTimeoutMs);
+    turretMotor.configPeakOutputForward(.5, kTimeoutMs);
+    turretMotor.configPeakOutputReverse(-.5, kTimeoutMs);
     /**
      * Config the allowable closed-loop error, Closed-Loop output will be
      * neutral within this range. See Table in Section 17.2.1 for native
@@ -104,17 +104,16 @@ public class Shooter extends SubsystemBase {
 
     /* Set the quadrature (relative) sensor to match absolute */
     turretMotor.setSelectedSensorPosition(absolutePosition, kPIDLoopIdx, kTimeoutMs);
-
-    turretMotor.configClearPositionOnLimitR(true, 50);
     flywheelMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void turn(double power) {
     turretMotor.set(ControlMode.PercentOutput, power);
+
   }
 
   public void turnRotations(double ticks) {
-    turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
+      turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
   }
 
   public void hoodTargeting() {
@@ -123,7 +122,6 @@ public class Shooter extends SubsystemBase {
 
   public void runTurret(double speed) {
     turretMotor.set(ControlMode.PercentOutput, speed);
-    System.out.println(speed);
   }
 
   // Method to make flyWheelMotors Move

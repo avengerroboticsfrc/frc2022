@@ -25,7 +25,7 @@ public class TargetTurretCommand extends CommandBase {
   @Override
   public void execute() {
     turret.turnRotations(limelight.getHoodAdjust());
-    // System.out.println(limelight.getHoodAdjust());
+    
   }
 
   @Override

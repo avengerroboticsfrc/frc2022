@@ -43,10 +43,12 @@ public class Lift extends SubsystemBase {
     // Pitch and vertical motors will follow their counterparts
     verticalMotors[1].follow(verticalMotors[0]);
     pitchMotors[1].follow(pitchMotors[0]);
-    verticalMotors[1].setInverted(InvertType.OpposeMaster);
     // continue...
   }
 
+  public void liftStop(){
+    verticalMotors[0].stopMotor();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
