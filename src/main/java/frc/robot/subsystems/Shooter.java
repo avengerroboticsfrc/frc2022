@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
   public static boolean kSensorPhase = false;
   public static boolean kMotorInvert = false;
   public static final TurretGains kTurretGains = new TurretGains(0, 0, 0, .1705, 0, 1);
-  public static final HoodGains kHoodGains = new HoodGains(0.15, 0, 1, 0, 0, 0, .3);
+  public static final HoodGains kHoodGains = new HoodGains(0, 0, 0, 0, 0, 0, 1);
   private static final int TicksPerRotation = 4096;
 
   // Shooter constructor
@@ -47,9 +47,9 @@ public class Shooter extends SubsystemBase {
     flywheelMotor.configOpenloopRamp(1);
     
     //Hood configuration
-    hoodMotor.restoreFactoryDefaults();
     hoodPidController = hoodMotor.getPIDController();
     hoodEncoder = hoodMotor.getEncoder();
+    hoodEncoder.setPositionConversionFactor(4096);
     hoodPidController.setP(kHoodGains.kP);
     hoodPidController.setI(kHoodGains.kI);
     hoodPidController.setD(kHoodGains.kD);
@@ -116,10 +116,6 @@ public class Shooter extends SubsystemBase {
       turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
   }
 
-  public void hoodTargeting() {
-    hoodPidController.setReference(4096, CANSparkMax.ControlType.kPosition);
-  }
-
   public void runTurret(double speed) {
     turretMotor.set(ControlMode.PercentOutput, speed);
   }
@@ -131,9 +127,14 @@ public class Shooter extends SubsystemBase {
 
   // Method to make hood move
   public void hoodPower(double speed) {
+    hoodMotor.set(speed);
   }
 
   public double getTurnPosition() {
     return turretMotor.getSelectedSensorPosition(0);
   }
+
+public void adjustAngle(double turretAdjust) {
+    hoodEncoder.setPosition(100000);
+}
 }

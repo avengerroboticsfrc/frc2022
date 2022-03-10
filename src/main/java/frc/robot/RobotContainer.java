@@ -107,13 +107,13 @@ public class RobotContainer {
 
     JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 7);
     toggleIntakes.whenHeld(new StartEndCommand(
-        () -> intake.intakePower(.25),
+        () -> intake.intakePower(.6),
         () -> intake.intakePower(0),
         intake));
 
     JoystickButton toggleIntakeOut = new JoystickButton(buttonPanel, 8);
       toggleIntakeOut.whenHeld(new StartEndCommand(
-        () -> intake.intakePower(-.25),
+        () -> intake.intakePower(-.6),
         () -> intake.intakePower(0),
         intake));
 
@@ -128,6 +128,13 @@ public class RobotContainer {
       shooter, limelight
     ));
 
+    // JoystickButton automaticTargeting = new JoystickButton(buttonPanel, 9);
+    // automaticTargeting.whileHeld( 
+    //   new TargetTurretCommand(shooter, limelight)
+    //     .alongWith(new TargetHoodCommand(shooter, limelight))
+    //   );
+
+
     // JoystickButton manualTargeting = new JoystickButton(buttonPanel, 10);
     // manualTargeting.toggleWhenPressed(new RunCommand(
     //     () -> shooter.runTurret(controller.getRightX()),
@@ -135,38 +142,53 @@ public class RobotContainer {
     // ));
 
     JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 10);
-    powershooterMotors.toggleWhenPressed(new StartEndCommand(
+    powershooterMotors.whenHeld(new StartEndCommand(
         () -> shooter.runFlywheel(1),
         () -> shooter.runFlywheel(0),
         shooter));
 
+        JoystickButton powershooterMotors90 = new JoystickButton(buttonPanel, 11);
+        powershooterMotors90.whenHeld(new StartEndCommand(
+            () -> shooter.runFlywheel(.9),
+            () -> shooter.runFlywheel(0),
+            shooter));
+
+            JoystickButton powershooterMotors80 = new JoystickButton(buttonPanel, 12);
+            powershooterMotors80.whenHeld(new StartEndCommand(
+                () -> shooter.runFlywheel(.8),
+                () -> shooter.runFlywheel(0),
+                shooter));
+
+                JoystickButton powershooterMotors50 = new JoystickButton(buttonPanel, 4);
+                powershooterMotors50.whenHeld(new StartEndCommand(
+                    () -> shooter.runFlywheel(.4),
+                    () -> shooter.runFlywheel(0),
+                    shooter));
+
     JoystickButton powerIndexUp = new JoystickButton(buttonPanel, 5);
-    powerIndexUp.toggleWhenPressed(new StartEndCommand(
+    powerIndexUp.whenHeld(new StartEndCommand(
     () -> index.power(0.8),
     () -> index.power(0),
     index));
 
     JoystickButton powerIndexOut = new JoystickButton(buttonPanel, 6);
-        powerIndexOut.toggleWhenPressed(new StartEndCommand(
+        powerIndexOut.whenHeld(new StartEndCommand(
         () -> index.power(-0.8),
         () -> index.power(0),
         index));
-
-
-
   }
 
   private void configureLift() {
     //configures lift commands
     JoystickButton smallArmUp = new JoystickButton(buttonPanel, 1);
     smallArmUp.whenHeld(new StartEndCommand(
-        () -> lift.liftPower(-.5),
+        () -> lift.liftPower(.2),
         () -> lift.liftStop(),
         lift));
 
     JoystickButton smallArmDown = new JoystickButton(buttonPanel, 2);
     smallArmDown.whenHeld(new StartEndCommand(
-        () -> lift.liftPower(1),
+        () -> lift.liftPower(-1),
         () -> lift.liftStop(),
         lift));
 

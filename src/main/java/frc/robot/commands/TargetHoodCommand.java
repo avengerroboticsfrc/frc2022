@@ -1,25 +1,21 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LimelightCamera;
 import frc.robot.subsystems.Shooter;
 
-public class TargetTurretCommand extends CommandBase {
+public class TargetHoodCommand extends CommandBase {
 
-  private final Shooter turret;
+  private final Shooter shooter;
   private final LimelightCamera limelight;
-  private final PS4Controller controller;
-
 
   /**
    * command to target the turret.
    */
-  public TargetTurretCommand(Shooter turret, LimelightCamera limelight) {
-    this.turret = turret;
+  public TargetHoodCommand(Shooter shooter, LimelightCamera limelight) {
+    this.shooter = shooter;
     this.limelight = limelight;
-    controller = new PS4Controller(0);
-    addRequirements(turret, limelight);
+    addRequirements(shooter, limelight);
   }
 
 
@@ -28,9 +24,9 @@ public class TargetTurretCommand extends CommandBase {
 
   @Override
   public void execute() {
-    turret.turnRotations(limelight.getTurretAdjust());
+    shooter.adjustAngle(limelight.getTurretAdjust());
+    System.out.println("bruh");
   }
-
 
   @Override
   public boolean isFinished() {
