@@ -34,6 +34,7 @@ public class Intake extends SubsystemBase {
     super();
     intakeMotor.setIdleMode(IdleMode.kCoast);
     start();
+    compressor.enableDigital();
   }
 
   // Method Stoping Pneumatics System

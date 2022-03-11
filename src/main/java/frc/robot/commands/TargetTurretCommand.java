@@ -9,7 +9,6 @@ public class TargetTurretCommand extends CommandBase {
 
   private final Shooter turret;
   private final LimelightCamera limelight;
-  private final PS4Controller controller;
 
 
   /**
@@ -18,7 +17,6 @@ public class TargetTurretCommand extends CommandBase {
   public TargetTurretCommand(Shooter turret, LimelightCamera limelight) {
     this.turret = turret;
     this.limelight = limelight;
-    controller = new PS4Controller(0);
     addRequirements(turret, limelight);
   }
 
@@ -31,9 +29,12 @@ public class TargetTurretCommand extends CommandBase {
     turret.turnRotations(limelight.getTurretAdjust());
   }
 
+  public void end() {
+    turret.turnRotations(0);
+  }
 
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
