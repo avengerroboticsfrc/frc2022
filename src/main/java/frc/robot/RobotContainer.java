@@ -48,7 +48,7 @@ public class RobotContainer {
   private PS4Controller controller = new PS4Controller(Constants.controllerPort);
   private final Joystick buttonPanel = new Joystick(Constants.buttonPanelPort);
 
-  public final String trajectoryJson = "pathweaver/out/reverse.wpilib.json";
+  public final String trajectoryJson = "pathweaver/output/reverse.wpilib.json";
   private Trajectory reverseTrajectory;
 
   // The robot's subsystems and commands are defined here...
