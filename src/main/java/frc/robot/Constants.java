@@ -51,11 +51,11 @@ public final class Constants {
   // Not actual values
 
   // Voltage
-  public static final double ksVolts = 0.73197;
-  public static final double kvVoltSecondsPerMeter = 1.3102;
-  public static final double kaVoltSecondsSquaredPerMeter = 0.12537;
+  public static final double ksVolts = 0.72613;
+  public static final double kvVoltSecondsPerMeter = 2.541;
+  public static final double kaVoltSecondsSquaredPerMeter = 0.45123;
 
-  public static final double kPDriveVel = 2.3761;
+  public static final double kPDriveVel = 2.457;
 
   // Differential Drive Kinematics
   public static final double kTrackwidthMeters = 0.53;
