@@ -209,38 +209,53 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // RamseteCommand reverseCommand = new RamseteCommand(
-    //     reverseTrajectory,
-    //     drive::getPose,
-    //     new RamseteController(Constants.kRamsete, Constants.kRamseteZeta),
-    //     new SimpleMotorFeedforward(
-    //         Constants.ksVolts,
-    //         Constants.kvVoltSecondsPerMeter,
-    //         Constants.kaVoltSecondsSquaredPerMeter),
-    //     Constants.kDriveKinematics,
-    //     drive::getWheelSpeeds,
-    //     new PIDController(Constants.kPDriveVel, 0, 0),
-    //     new PIDController(Constants.kPDriveVel, 0, 0),
-    //     // RamseteCommand passes volts to the callback
-    //     drive::tankDriveVolts,
-    //     drive);
+    RamseteCommand reverseCommand = new RamseteCommand(
+        reverseTrajectory,
+        drive::getPose,
+        new RamseteController(Constants.kRamsete, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(
+            Constants.ksVolts,
+            Constants.kvVoltSecondsPerMeter,
+            Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        drive::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        drive::tankDriveVolts,
+        drive);
 
-    // // Reset odometry to the starting pose of the trajectory.
-    // drive.resetOdometry(reverseTrajectory.getInitialPose());
+    // Reset odometry to the starting pose of the trajectory.
+    drive.resetOdometry(reverseTrajectory.getInitialPose());
 
-    // Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    // Command powerShooterCommand = new RunCommand(() -> shooter.hoodPower(1), shooter);
-    // Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
+    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
+    Command powerShooterCommand = new RunCommand(() -> shooter.hoodPower(1), shooter);
+    Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
 
-    Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
+    // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
 
-    Command holdCom = new WaitCommand(0);
+    // Command holdCom = new WaitCommand(0);
 
 
-    return holdCom
-    .andThen(new ParallelDeadlineGroup(new WaitCommand(4)
-    , 
-    forwardDrive));
+    return new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        stopDriveCommand,
+        powerShooterCommand
+      ).andThen(new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        stopDriveCommand,
+        powerShooterCommand,
+        powerIndexCommand
+      )).andThen(reverseCommand).andThen(new ParallelCommandGroup(
+        stopDriveCommand,
+        new RunCommand(() -> shooter.hoodPower(0), shooter),
+        new RunCommand(() -> index.power(0), index)
+      ));
+
+    // return holdCom
+    // .andThen(new ParallelDeadlineGroup(new WaitCommand(4)
+    // , 
+    // forwardDrive));
 
 
     // // Run path following command, then stop at the end.`
