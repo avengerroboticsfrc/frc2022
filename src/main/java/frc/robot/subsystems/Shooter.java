@@ -113,7 +113,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void turnRotations(double ticks) {
-      turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
+    turretMotor.set(ControlMode.Position, ticks * TicksPerRotation);
   }
 
   public void runTurret(double speed) {

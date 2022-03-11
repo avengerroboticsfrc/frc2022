@@ -46,9 +46,10 @@ public class Lift extends SubsystemBase {
     // continue...
   }
 
-  public void liftStop(){
+  public void liftStop() {
     verticalMotors[0].stopMotor();
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
