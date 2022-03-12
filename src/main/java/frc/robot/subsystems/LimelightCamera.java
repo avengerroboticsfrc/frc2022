@@ -20,14 +20,14 @@ public class LimelightCamera extends SubsystemBase {
   // the robot
 
   public LimelightCamera() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+    table = NetworkTableInstance.getDefault().getTable("limelight-b");
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("pipeline").setNumber(0);
   }
 
   @Override
   public void periodic() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
     SmartDashboard.putNumber("LimelightX", getTargetXOffset());
     SmartDashboard.putNumber("LimelightY", getTargetYOffset());
     SmartDashboard.putNumber("LimelightArea", getTargetArea());
@@ -49,7 +49,7 @@ public class LimelightCamera extends SubsystemBase {
   // }
 
   public double getTurretAdjust() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
     double tx = table.getEntry("tx").getDouble(0);
     float Kp = 0.1f;
     float min_command = 0.05f;
@@ -71,7 +71,7 @@ public class LimelightCamera extends SubsystemBase {
   }
 
   public double getHoodAdjust() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
     double ty = table.getEntry("ty").getDouble(0);
     double targetOffsetAngle_Vertical = ty;
 

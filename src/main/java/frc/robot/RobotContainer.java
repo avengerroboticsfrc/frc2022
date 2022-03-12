@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.TargetTurretCommand;
 import frc.robot.commands.ToggleIntakeCommand;
 import frc.robot.subsystems.Index;
@@ -46,6 +48,8 @@ import java.nio.file.Path;
  */
 public class RobotContainer {
   private PS4Controller controller = new PS4Controller(Constants.controllerPort);
+  // private XboxController controller = new XboxController(Constants.controllerPort);
+
   private final Joystick buttonPanel = new Joystick(Constants.buttonPanelPort);
 
   public final String trajectoryJson = "pathweaver/output/reverse.wpilib.json";
@@ -92,13 +96,15 @@ public class RobotContainer {
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        new DefaultDrive(
+        new DefaultDrive( 
             drive,
             controller::getL2Axis,
             controller::getR2Axis,
             controller::getLeftX,
             controller::getCircleButton
-        ));
+        )
+        //new TankDrive(drive, controller::getRightY, controller::getLeftY, () -> controller.getR2Axis() > 0)
+      );
   }
 
   private void configureIntake() {
@@ -109,13 +115,13 @@ public class RobotContainer {
 
     JoystickButton toggleIntakes = new JoystickButton(buttonPanel, 7);
     toggleIntakes.whenHeld(new StartEndCommand(
-        () -> intake.intakePower(.6),
+        () -> intake.intakePower(.75),
         () -> intake.intakePower(0),
         intake));
 
     JoystickButton toggleIntakeOut = new JoystickButton(buttonPanel, 8);
       toggleIntakeOut.whenHeld(new StartEndCommand(
-        () -> intake.intakePower(-.6),
+        () -> intake.intakePower(-.75),
         () -> intake.intakePower(0),
         intake));
 
@@ -148,7 +154,7 @@ public class RobotContainer {
 
         JoystickButton powershooterMotors90 = new JoystickButton(buttonPanel, 11);
         powershooterMotors90.whenHeld(new StartEndCommand(
-            () -> shooter.runFlywheel(.5),
+            () -> shooter.runFlywheel(.3),
             () -> shooter.runFlywheel(0),
             shooter));
 
@@ -166,13 +172,13 @@ public class RobotContainer {
 
     JoystickButton powerIndexUp = new JoystickButton(buttonPanel, 5);
     powerIndexUp.whenHeld(new StartEndCommand(
-    () -> index.power(0.8),
+    () -> index.power(0.9),
     () -> index.power(0),
     index));
 
     JoystickButton powerIndexOut = new JoystickButton(buttonPanel, 6);
         powerIndexOut.whenHeld(new StartEndCommand(
-        () -> index.power(-0.8),
+        () -> index.power(-0.9),
         () -> index.power(0),
         index));
   }
@@ -207,7 +213,7 @@ public class RobotContainer {
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
-   */
+  //  */
   public Command getAutonomousCommand() {
     RamseteCommand reverseCommand = new RamseteCommand(
         reverseTrajectory,
@@ -228,55 +234,69 @@ public class RobotContainer {
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(reverseTrajectory.getInitialPose());
 
-    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    Command powerShooterCommand = new RunCommand(() -> shooter.hoodPower(1), shooter);
-    Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
+    // Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
+    // Command powerShooterCommand = new RunCommand(() -> shooter.runFlywheel(.3), shooter);
+    // Command powerIndexCommand = new RunCommand(() -> index.power(.8), index);
+    // Command endShooterCommand = new RunCommand(() -> shooter.runFlywheel(0), shooter);
+    // Command endIndexCommand = new RunCommand(() -> index.power(0), index);
 
-    // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
+    // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.5, .5), drive);
 
     // Command holdCom = new WaitCommand(0);
 
 
     return new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        stopDriveCommand,
-        powerShooterCommand
+        new WaitCommand(1),
+        new RunCommand(() -> drive.tankDriveVolts(0, 0), drive),
+        new RunCommand(() -> shooter.runFlywheel(0.3), shooter)
       ).andThen(new ParallelDeadlineGroup(
         new WaitCommand(3),
-        stopDriveCommand,
-        powerShooterCommand,
-        powerIndexCommand
-      )).andThen(reverseCommand).andThen(new ParallelCommandGroup(
-        stopDriveCommand,
-        new RunCommand(() -> shooter.hoodPower(0), shooter),
-        new RunCommand(() -> index.power(0), index)
-      ));
+        // new StartEndCommand(() -> index.power(.8), () -> index.power(0), index),
+        new StartEndCommand(() -> shooter.runFlywheel(0.3), () -> shooter.runFlywheel(0), shooter)
+      )).andThen(reverseCommand).andThen(new ToggleIntakeCommand(intake))
+      .andThen(() -> drive.tankDriveVolts(0, 0), drive);
 
+
+
+    // // SHoot and drive back (works)
     // return holdCom
     // .andThen(new ParallelDeadlineGroup(new WaitCommand(4)
+    // ,
+    // powerShooterCommand,
+    // powerIndexCommand)).andThen(new ParallelDeadlineGroup(new WaitCommand(5)
     // , 
-    // forwardDrive));
+    // forwardDrive,
+    // endShooterCommand,
+    // endIndexCommand
+    // ));
 
 
-    // // Run path following command, then stop at the end.`
-    // return reverseCommand
-    //   .andThen(new ParallelDeadlineGroup(
-    //     new WaitCommand(4),
-    //     new TargetTurretCommand(shooter, limelight),
-    //     stopDriveCommand,
-    //     powerShooterCommand
-    //   ))
-    //   .andThen(new ParallelDeadlineGroup(
-    //     new WaitCommand(10),
-    //     new RunCommand(() -> index.power(0.5), index),
-    //     stopDriveCommand,
-    //     powerShooterCommand
-    //   ))
-    //   .andThen(new ParallelCommandGroup(
-    //     stopDriveCommand,
-    //     new RunCommand(() -> shooter.hoodPower(0), shooter),
-    //     new RunCommand(() -> index.power(0), index)
-    //   ));
+
+
+
+
+
+
+
+    //   // Run path following command, then stop at the end.`
+  //   return reverseCommand
+  //     .andThen(new ParallelDeadlineGroup(
+  //       new WaitCommand(4),
+  //       new TargetTurretCommand(shooter, limelight),
+  //       stopDriveCommand,
+  //       powerShooterCommand
+  //     ))
+  //     .andThen(new ParallelDeadlineGroup(
+  //       new WaitCommand(10),
+  //       new RunCommand(() -> index.power(0.5), index),
+  //       stopDriveCommand,
+  //       powerShooterCommand
+  //     ))
+  //     .andThen(new ParallelCommandGroup(
+  //       stopDriveCommand,
+  //       new RunCommand(() -> shooter.hoodPower(0), shooter),
+  //       new RunCommand(() -> index.power(0), index)
+  //     ));
 
 
   }
