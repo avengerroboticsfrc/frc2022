@@ -4,26 +4,22 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import java.io.IOException;
+import java.nio.file.Path;
+
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.TankDrive;
 import frc.robot.commands.TargetTurretCommand;
 import frc.robot.commands.ToggleIntakeCommand;
 import frc.robot.subsystems.Index;
@@ -33,9 +29,6 @@ import frc.robot.subsystems.LimelightCamera;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.DriveTrain;
 import frc.robot.subsystems.drive.MainDrive;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -52,7 +45,7 @@ public class RobotContainer {
 
   private final Joystick buttonPanel = new Joystick(Constants.buttonPanelPort);
 
-  public final String trajectoryJson = "pathweaver/output/reverse.wpilib.json";
+  public final String trajectoryJson = "/pathweaver/Paths/reverse.path";
   private Trajectory reverseTrajectory;
 
   // The robot's subsystems and commands are defined here...
@@ -148,7 +141,7 @@ public class RobotContainer {
 
     JoystickButton powershooterMotors = new JoystickButton(buttonPanel, 10);
     powershooterMotors.whenHeld(new StartEndCommand(
-        () -> shooter.runFlywheel(.3),
+        () -> shooter.runFlywheel(.35),
         () -> shooter.runFlywheel(0),
         shooter));
 
@@ -172,13 +165,13 @@ public class RobotContainer {
 
     JoystickButton powerIndexUp = new JoystickButton(buttonPanel, 5);
     powerIndexUp.whenHeld(new StartEndCommand(
-    () -> index.power(0.9),
+    () -> index.power(1),
     () -> index.power(0),
     index));
 
     JoystickButton powerIndexOut = new JoystickButton(buttonPanel, 6);
         powerIndexOut.whenHeld(new StartEndCommand(
-        () -> index.power(-0.9),
+        () -> index.power(-1),
         () -> index.power(0),
         index));
   }
@@ -215,28 +208,29 @@ public class RobotContainer {
    * @return the command to run in autonomous
   //  */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new RamseteCommand(
-        reverseTrajectory,
-        drive::getPose,
-        new RamseteController(Constants.kRamsete, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(
-            Constants.ksVolts,
-            Constants.kvVoltSecondsPerMeter,
-            Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
-        drive::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        drive::tankDriveVolts,
-        drive);
+    return null;
+    // RamseteCommand reverseCommand = new RamseteCommand(
+    //     reverseTrajectory,
+    //     drive::getPose,
+    //     new RamseteController(Constants.kRamsete, Constants.kRamseteZeta),
+    //     new SimpleMotorFeedforward(
+    //         Constants.ksVolts,
+    //         Constants.kvVoltSecondsPerMeter,
+    //         Constants.kaVoltSecondsSquaredPerMeter),
+    //     Constants.kDriveKinematics,
+    //     drive::getWheelSpeeds,
+    //     new PIDController(Constants.kPDriveVel, 0, 0),
+    //     new PIDController(Constants.kPDriveVel, 0, 0),
+    //     // RamseteCommand passes volts to the callback
+    //     drive::tankDriveVolts,
+    //     drive);
 
-    // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(reverseTrajectory.getInitialPose());
+    // // Reset odometry to the starting pose of the trajectory.
+    // drive.resetOdometry(reverseTrajectory.getInitialPose());
 
     // Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    // Command powerShooterCommand = new RunCommand(() -> shooter.runFlywheel(.3), shooter);
-    // Command powerIndexCommand = new RunCommand(() -> index.power(.8), index);
+    // Command powerShooterCommand = new RunCommand(() -> shooter.runFlywheel(.35), shooter);
+    // Command powerIndexCommand = new RunCommand(() -> index.power(1), index);
     // Command endShooterCommand = new RunCommand(() -> shooter.runFlywheel(0), shooter);
     // Command endIndexCommand = new RunCommand(() -> index.power(0), index);
 
@@ -245,16 +239,16 @@ public class RobotContainer {
     // Command holdCom = new WaitCommand(0);
 
 
-    return new ParallelDeadlineGroup(
-        new WaitCommand(1),
-        new RunCommand(() -> drive.tankDriveVolts(0, 0), drive),
-        new RunCommand(() -> shooter.runFlywheel(0.3), shooter)
-      ).andThen(new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        // new StartEndCommand(() -> index.power(.8), () -> index.power(0), index),
-        new StartEndCommand(() -> shooter.runFlywheel(0.3), () -> shooter.runFlywheel(0), shooter)
-      )).andThen(reverseCommand).andThen(new ToggleIntakeCommand(intake))
-      .andThen(() -> drive.tankDriveVolts(0, 0), drive);
+    // return new ParallelDeadlineGroup(
+    //     new WaitCommand(1),
+    //     new RunCommand(() -> drive.tankDriveVolts(0, 0), drive),
+    //     new RunCommand(() -> shooter.runFlywheel(0.3), shooter)
+    //   ).andThen(new ParallelDeadlineGroup(
+    //     new WaitCommand(3),
+    //     // new StartEndCommand(() -> index.power(.8), () -> index.power(0), index),
+    //     new StartEndCommand(() -> shooter.runFlywheel(0.3), () -> shooter.runFlywheel(0), shooter)
+    //   )).andThen(reverseCommand).andThen(new ToggleIntakeCommand(intake))
+    //   .andThen(() -> drive.tankDriveVolts(0, 0), drive);
 
 
 

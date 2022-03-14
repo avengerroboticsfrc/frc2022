@@ -46,12 +46,25 @@ public class DefaultDrive extends CommandBase {
   public void execute() {
     double speed = (reverse.getAsDouble() + (forward.getAsDouble()*-1)) * .5;
     double rotate = rotation.getAsDouble();
-    double val = turn.getAsBoolean() ? .35 : 1;
+    double val = turn.getAsBoolean() ? .25 : 1;
     double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
     double val2 = Math.pow(rotate, 3);
-    drive.curvatureDrive((speed2 * .5), (val2*val), turn.getAsBoolean());
+    drive.curvatureDrive((speed2 * .75), (val2*val), turn.getAsBoolean());
 
   }
+
+
+  
+  // @Override
+  // public void execute() {
+  //   double speed = (reverse.getAsDouble() + (forward.getAsDouble()*-1)) * .5;
+  //   double rotate = rotation.getAsDouble();
+  //   double val = turn.getAsBoolean() ? .35 : 1;
+  //   double speed2 = speed>0 ? Math.pow(speed, 3) : -Math.pow(speed, 3);
+  //   double val2 = Math.pow(rotate, 3);
+  //   drive.curvatureDrive((speed2 * .5), (val2*val), turn.getAsBoolean());
+
+  // }
 
 
 
